@@ -1,0 +1,141 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+  
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+  .full-space {
+
+    display: block;
+
+  }
+
+  .full-space .left-cell-75 {
+    width: 75%;
+  }
+
+ .full-space .right-cell-15 {
+   width: 15%;
+  }
+
+.group_of-square-2-column {
+  display: flex;
+  justify-content:center;
+  align-content: center;
+}
+
+
+
+ /* squares */
+  .group_of-square-2-column div {
+    display: flex;
+    width: 250px;
+    height: 250px;
+    background-color: red;
+    margin: 5px;
+    background-image: linear-gradient(326deg, #a4508b 0%, #5f0a87 74%);
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+  }
+
+
+@media screen and (max-width: 500px) {
+  .group_of-square-2-column div {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    margin: 5px;
+    background-image: linear-gradient(326deg, #a4508b 0%, #5f0a87 74%);
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+  }
+}
+
+    .group_of-square-2-column div img {
+      width: 70%;
+      max-width: 256px;
+    }
+
+    .group_of-square-2-column div:hover {
+      /*width: 370px;
+      height: 370px;*/
+      -moz-transition: 0.3s;
+      -o-transition: 0.3s;
+      -webkit-transition: 0.3s;
+      transition: 0.3s;
+      cursor: pointer;
+      background-position: 40px;
+    }
+
+    .navbar-custom {
+      box-shadow: 0 0 1px rgba(0,0,0,0.3);
+      background: white;
+    }
+.margin-top-25px {
+  margin-top: 25px;
+}
+
+.margin-top-50px {
+  margin-top: 50px;
+}
+
+.navbar-nav li {
+  margin: 5px;
+}
+.navbar-nav li a img {
+  margin-right: 5px;
+}
+
+.btn-light {
+  color: #212529;
+  background-color: unset;
+  border-color: #f8f9fa;
+  font-size: 12px;
+}
+
+.btn-light:hover {
+  color: #212529;
+  background-color: #e2e6ea; 
+  border-color: #827af7;
+}
+
+.block-overflow {
+
+  max-width: 100%;
+  overflow-x:scroll;
+
+}

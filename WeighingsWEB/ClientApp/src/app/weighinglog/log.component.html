@@ -1,0 +1,37 @@
+<h4 id="tableLabel" class="margin-top-25px">Журнал взвешиваний <img src="./assets/images/load.gif" height="50" *ngIf="!logs" /> </h4>
+
+
+<div class="block-overflow">
+  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="logs">
+    <thead>
+      <tr>
+        <th>Дата / время</th>
+        <th>Вес</th>
+        <th>Тип</th>
+        <th>Предыдущее</th>
+        <th>Пред. вес</th>
+        <th>Нетто</th>
+        <th>ГРЗ ТС</th>
+        <th>Владелец ТС</th>
+        <th>ГРЗ прицепа</th>
+      </tr>
+    </thead>
+
+    <!-- Лимит в 10 записей -->
+
+    <tbody>
+      <tr *ngFor="let log of logs">
+        <td>  {{ log.timeStamp | date:'MM/dd/yyyy h:mm:ss'}}</td>
+        <td>  {{ log.weight }}</td>
+        <td>  {{ log.type == 0 ? 'порожнее' : 'груженое' }} </td>
+        <td>  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.timeStamp | date:'MM/dd/yyyy h:mm:ss') }}</td>
+        <td>  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.weight) }} </td>
+        <td>  {{ log.previousWeighing == null ? ('—') : (log.weight-log.previousWeighing.weight) }} </td>
+        <td>  {{ log.vehiclePlate }}</td>
+        <td>  {{ log.vehicle.owner == null ? ('—') : (log.vehicle.owner) }} </td>
+        <td>  {{ log.trailerPlate == null ? ('—') : (log.trailerPlate) }} </td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

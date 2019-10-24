@@ -1,0 +1,32 @@
+<h1 id="tableLabel">Журнал взвешиваний</h1>
+
+
+<div *ngIf="!forecasts" class="flex-center">
+  <img src="./assets/images/load.gif" width="100" height="100" />
+</div>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts">
+  <thead>
+    <tr>
+      <th>Дата / время</th>
+      <th>Вес</th>
+      <th>Тип</th>
+      <th>Предыдущее</th>
+      <th>Пред. вес</th>
+      <th>Нетто</th>
+      <th>ГРЗ ТС</th>
+      <th>Владелец ТС</th>
+      <th>ГРЗ прицепа</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let forecast of forecasts">
+      <td>{{ forecast.date }}</td>
+      <td>{{ forecast.temperatureC }}</td>
+      <td>{{ forecast.temperatureF }}</td>
+      <td>{{ forecast.summary }}</td>
+    </tr>
+  </tbody>
+
+</table>
