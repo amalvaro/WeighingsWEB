@@ -13,7 +13,8 @@ import { WeighingLogComponent } from './weighinglog/log.component';
 import { ExportDataComponent } from './export/export.component';
 
 import { ModalPictureComponent } from "./modal-dialog/modal.component";
-
+import { ExpandInfoComponent } from "./modal-dialog/expand-info.component";
+import { SliderComponent } from "./weighing-picture-slider/slider.component";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { ModalPictureComponent } from "./modal-dialog/modal.component";
     FetchDataComponent,
     WeighingLogComponent,
     ExportDataComponent,
-    ModalPictureComponent
+    ModalPictureComponent,
+    ExpandInfoComponent,
+    SliderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

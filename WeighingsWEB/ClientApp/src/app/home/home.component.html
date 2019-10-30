@@ -6,6 +6,12 @@
   <img src="./assets/images/loading.gif" height="150" />
 </div>
 
+<modal-info
+    *ngIf="currentDialogData"
+    dialog-name="expanded-data"
+    title="Информация о взвешивании"
+    [data]="currentDialogData"></modal-info>
+
 <modal-picture
     *ngIf="currentModalPicture" dialog-name="picture-modal"
     picture-link="data:image/jpeg;base64,{{currentModalPicture.imageData}}"
@@ -16,7 +22,10 @@
     <div class="content">
       <div class="date">&mdash; {{ log.timeStamp | date:'MM/dd/yyyy h:mm:ss'}} &mdash;</div>
       <div class="picture">
-        <div *ngFor="let picture of log.weighingImages; let i = index">
+
+        <weighing-slider [weighing-picture-array]="log.weighingImages" slider-name="homeInfoSlider"></weighing-slider>
+
+        <!--<div *ngFor="let picture of log.weighingImages; let i = index">
           <img class="picture-list-style img-fluid"
                src="data:image/jpeg;base64,{{picture.imageData}}"
                [hidden]="!(i == slideHomeState[currentElement])"
@@ -27,10 +36,13 @@
           <div class="left" (click)="ChangeHomeSlidePicture(currentElement, false)"> </div>
           <div class="right" (click)="ChangeHomeSlidePicture(currentElement, true)"> </div> 
         </div>
-
+            -->
       </div>
       <div class="more-info">
-        <button class="btn btn-purple">Подробнее</button>
+        <button class="btn btn-purple"
+                data-toggle="modal"
+                data-target="#expanded-data"
+                (click)="SetCurrentDialogData(currentElement)">Подробнее</button>
       </div>
     </div>
   </div>

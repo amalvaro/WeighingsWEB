@@ -41,6 +41,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\modal-dialog\expand-info.component.ts" />
     <None Remove="ClientApp\src\data\structure\VehicleDataRecords.ts" />
     <None Remove="ClientApp\src\data\structure\WeghingImages.ts" />
     <None Remove="ClientApp\src\data\structure\WeighingLog.ts" />
@@ -51,6 +52,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\modal-dialog\expand-info.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\data\structure\VehicleDataRecords.ts" />
     <TypeScriptCompile Include="ClientApp\src\data\structure\WeghingImages.ts" />
     <TypeScriptCompile Include="ClientApp\src\data\structure\WeighingLog.ts" />

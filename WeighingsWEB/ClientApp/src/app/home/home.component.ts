@@ -14,6 +14,7 @@ export class HomeComponent {
 
     public data: WeighingLog[];
     public slideHomeState: number[] = [];
+    public currentDialogData: WeighingLog;
 
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
         this.http.get<WeighingLog[]>(this.baseUrl + 'home').subscribe(result => {
@@ -36,4 +37,7 @@ export class HomeComponent {
         this.currentModalPicture = this.data[wId].weighingImages[pId];
     }
 
+    SetCurrentDialogData(Id: number) {
+        this.currentDialogData = this.data[Id];
+    }
 }

@@ -34,21 +34,24 @@
     <tbody>
       <tr *ngFor="let log of data.response; let currentElement = index">
         <td class="text-center">
-          <div *ngFor="let picture of log.weighingImages; let i = index">
-            <img class="picture-list-style"
-                 src="data:image/jpeg;base64,{{picture.imageData}}" width="150"
-                 [hidden]="!(i == slideState[currentElement])"
-                 (click)="SetModalPicture(currentElement, i)"
-                 data-toggle="modal" data-target="#picture-modal"/>
-          </div>
 
-          <div class="groupOf_btn-purple" *ngIf="log.weighingImages.length != 1">
-            <div class="left"
-                 (click)="ChangePicture(currentElement, false)"> </div>
-            <div class="right"
-                 (click)="ChangePicture(currentElement, true)"> </div>
-          </div>
+          <weighing-slider [weighing-picture-array]="log.weighingImages" picture-size="150" slider-name="logInfoSlider"></weighing-slider>
 
+          <!--<div *ngFor="let picture of log.weighingImages; let i = index">
+    <img class="picture-list-style"
+         src="data:image/jpeg;base64,{{picture.imageData}}" width="150"
+         [hidden]="!(i == slideState[currentElement])"
+         (click)="SetModalPicture(currentElement, i)"
+         data-toggle="modal" data-target="#picture-modal"/>
+  </div>
+
+  <div class="groupOf_btn-purple" *ngIf="log.weighingImages.length != 1">
+    <div class="left"
+         (click)="ChangePicture(currentElement, false)"> </div>
+    <div class="right"
+         (click)="ChangePicture(currentElement, true)"> </div>
+  </div>
+      -->
         </td>
         <td>  {{ log.timeStamp | date:'MM/dd/yyyy h:mm:ss'}}</td>
         <td>  {{ log.weight }}</td>

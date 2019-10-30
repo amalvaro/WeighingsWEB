@@ -53,8 +53,8 @@ namespace WeighingsWEB.Database.EntityWorker.Entities
 					Weight = t.Weight,
 					PreviousWeighingId = t.PreviousWeighingId,
 					Type = t.Type,
-					Flags = t.Flags,
-					AxlesWeighingFlags = t.AxlesWeighingFlags,
+					/* Flags = t.Flags,
+					AxlesWeighingFlags = t.AxlesWeighingFlags, */
 					WeighingImages = t.WeighingImages,
 					Vehicle = new VehicleDataRecords {
 						Owner = t.Vehicle.Owner

@@ -36,7 +36,7 @@ namespace WeighingsWEB.Controllers
 
 			/* Выбрать первые 4 записи */
 
-			var lastWeighingLogs = weighingLogWorker.GetShortLogList(0, 4);
+			var lastWeighingLogs = weighingLogWorker.GetLogList(0, 4);
 
 			foreach (var weighing in lastWeighingLogs)
 				for (int i = 0; i < weighing.WeighingImages.Count; i++)
