@@ -20,18 +20,30 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="ClientApp\src\Новая папка\**" />
+    <Compile Remove="ClientApp\src\app\Новая папка1\**" />
+    <Compile Remove="Новая папка\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\src\Новая папка\**" />
-    <EmbeddedResource Remove="ClientApp\src\Новая папка\**" />
-    <EntityDeploy Remove="ClientApp\src\Новая папка\**" />
+    <Content Remove="ClientApp\src\app\Новая папка1\**" />
+    <Content Remove="Новая папка\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\Новая папка1\**" />
+    <EmbeddedResource Remove="Новая папка\**" />
+    <EntityDeploy Remove="ClientApp\src\app\Новая папка1\**" />
+    <EntityDeploy Remove="Новая папка\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="ClientApp\src\Новая папка\**" />
+    <None Remove="ClientApp\src\app\Новая папка1\**" />
+    <None Remove="Новая папка\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\data\structure\VehicleDataRecords.ts" />
+    <None Remove="ClientApp\src\data\structure\WeghingImages.ts" />
+    <None Remove="ClientApp\src\data\structure\WeighingLog.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +51,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\Новая папка\" />
+    <TypeScriptCompile Include="ClientApp\src\data\structure\VehicleDataRecords.ts" />
+    <TypeScriptCompile Include="ClientApp\src\data\structure\WeghingImages.ts" />
+    <TypeScriptCompile Include="ClientApp\src\data\structure\WeighingLog.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -12,6 +12,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { WeighingLogComponent } from './weighinglog/log.component';
 import { ExportDataComponent } from './export/export.component';
 
+import { ModalPictureComponent } from "./modal-dialog/modal.component";
+
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { ExportDataComponent } from './export/export.component';
     CounterComponent,
     FetchDataComponent,
     WeighingLogComponent,
-    ExportDataComponent
+    ExportDataComponent,
+    ModalPictureComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -31,7 +34,8 @@ import { ExportDataComponent } from './export/export.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
         { path: 'fetch-data', component: FetchDataComponent },
-        { path: 'weighinglog-data', component: WeighingLogComponent }, /* export-data */
+        { path: 'weighinglog-data', component: WeighingLogComponent },
+        { path: 'weighinglog-data/:page', component: WeighingLogComponent }, /* export-data */
         { path: 'export-data', component: ExportDataComponent }
     ])
   ],

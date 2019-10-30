@@ -1,47 +1,150 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { WeighingLog } from "src/data/structure/WeighingLog";
+
+import { WeighingImages } from '../../data/structure/WeghingImages';
+/*import { style, state, animate, transition, trigger } from '@angular/animations'; */
 
 @Component({
     selector: 'log-component',
-    templateUrl: './log.component.html'
+    templateUrl: './log.component.html',
+    /*animations: [
+  trigger('fadeInOut', [
+    transition(':enter', [   // :enter is alias to 'void => *'
+      style({opacity:0}),
+      animate(500, style({opacity:1})) 
+    ]),
+    transition(':leave', [   // :leave is alias to '* => void'
+      animate(500, style({opacity:0})) 
+    ])
+  ])
+] */
 })
 
 export class WeighingLogComponent {
-    public logs: WeighingLog[];
+    public data: WeighingLogResponse;
+    public currentPageCounter: number = 1;
 
-    constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-        http.get<WeighingLog[]>(baseUrl + 'weighinglog').subscribe(result => {
-            this.logs = result;
+    public isThisFinishPage: boolean = false;
+
+    public currentPageArrayNumbers: number[] = [];
+    public maxPages: number;
+
+    public MAX_PAGE_COUNT: number = 4;
+    public MAX_ROWS_COUNT: number = 5;
+
+    public slideState: number[] = [];
+    public currentModalPicture: WeighingImages;
+
+    constructor(private route: ActivatedRoute, private http: HttpClient, @Inject('BASE_URL') private  baseUrl: string) {
+
+        this.UpdateContent(
+            route.snapshot.paramMap.get("page")
+        );
+
+
+    }
+
+    get currentPage(): number {
+        return !this.currentPageCounter ? 1 : this.currentPageCounter;
+    }
+
+    UpdateContent(page:any = 1): void {
+
+        page = page == null ? 1 : page;
+
+        this.data = null;
+        this.http.get<WeighingLogResponse>(this.baseUrl + 'weighinglog/?page=' + page).subscribe(result => {
+
+
+            this.data = result;
+
+            this.slideState = [];
+            this.slideState.length = this.data.response.length;
+            this.slideState = this.slideState.fill(0);
+
+            this.maxPages = Math.ceil(this.data.count / this.MAX_ROWS_COUNT);
+
+            if (page > this.maxPages) {
+                this.UpdateContent(this.maxPages);
+            }
+
+            if (page < 1) {
+                this.UpdateContent(1);
+            }
+
+            this.UpdateNextPageNumber(page);
+            this.currentPageCounter = page;
+
         }, error => console.error(error));
     }
+
+    UpdateNextPageNumber(currentPage: number = 1): void {
+
+        var startAt: number = (Math.ceil(currentPage / this.MAX_PAGE_COUNT) - 1 +
+            (1 / this.MAX_PAGE_COUNT)) / (1 / this.MAX_PAGE_COUNT);
+
+        this.currentPageArrayNumbers = [];
+        for (let i = startAt; i <= this.maxPages; i++) {
+
+            this.currentPageArrayNumbers.push(i);
+            if (this.currentPageArrayNumbers.length >= this.MAX_PAGE_COUNT) {
+                this.isThisFinishPage = false;
+                break;
+            }
+            this.isThisFinishPage = true;
+
+        }
+    }
+
+    UpdatePrevPageNumber(currentPage: number = 1): void {
+        /* var startAt: number = (Math.ceil(currentPage / this.MAX_PAGE_COUNT) - 1 + (1 / this.MAX_PAGE_COUNT)) / (1 / this.MAX_PAGE_COUNT); */
+        this.currentPageArrayNumbers = [];
+        for (let i = currentPage; 1 <= i; i--) {
+            this.currentPageArrayNumbers.push(i);
+            if (this.currentPageArrayNumbers.length >= this.MAX_PAGE_COUNT) {
+                this.isThisFinishPage = false;
+                break;
+            }
+            this.isThisFinishPage = true;
+        }
+        this.currentPageArrayNumbers.reverse();
+    }
+
+    get isShowPrevButton(): boolean {
+        return this.currentPageArrayNumbers[0] != 1;
+    }
+
+    get lastPageNumber(): number {
+        return this.currentPageArrayNumbers[this.currentPageArrayNumbers.length - 1] + 1;
+    }
+    ChangePicture(elementId: number, state: boolean) {
+
+      /* State argument is describe direction (left = false, right = true) */
+        var countPictures: number = this.data.response[elementId].weighingImages.length;
+        this.slideState[elementId] = state == true ?
+            ((this.slideState[elementId] > countPictures - 2) ? 0 : this.slideState[elementId] + 1) :
+            ((this.slideState[elementId] - 1 < 0) ? countPictures - 1 : this.slideState[elementId] - 1);
+
+    }
+    SetModalPicture(weighingId: number, pictureId: number) {
+        this.currentModalPicture = this.data.response[weighingId].weighingImages[pictureId];
+    }
+
 }
 
-/* вынести в отдельный файл  */
 
-interface VehicleDataRecords {
-    owner: string
+
+interface WeighingLogResponse {
+
+    /* Массив записей для текущей страницы */
+    response: WeighingLog[],
+
+    /* Количество записей в базе данных для постраничной навигации */
+    count: number
+
 }
 
-interface WeighingLog {
-    id: number,
-    vehicleId: number,
-    vehiclePlate: string,
-    vehiclePlateStencilId: number,
-    trailerId: number,
-    trailerPlate: string
-    trailerPlateStencilId: number,
-    timeStamp: string,
-    scalesId:string
-    operator:string,
-    weight : number,
-    previousWeighingId: number,
-    type: number,
-    flags: number,
-    axlesWeighingFlags:number,
-    isDeleted:boolean
-    deletedById:number,
-    deletedOn:string,
-    deletionReason: string,
-    previousWeighing: WeighingLog,
-    vehicle: VehicleDataRecords
-}
+
+

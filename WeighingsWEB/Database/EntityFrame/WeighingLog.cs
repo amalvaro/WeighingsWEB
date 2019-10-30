@@ -49,11 +49,14 @@ namespace Entities.Entities
         public string DeletionReason { get; set; }
 
 
-        /* Foreign links */
-        public WeighingLog PreviousWeighing { get; set; }
-        public VehicleDataRecords Vehicle { get; set; }
+		/* Связанные таблицы */
 
-    }
+		public VehicleDataRecords Vehicle { get; set; }
+		public WeighingLog PreviousWeighing { get; set; }
+		[ForeignKey("WeighingId")]
+		public List<WeighingImages> WeighingImages { get; set; }
+
+	}
 
 
 }

@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
-namespace Entities.Entities
+namespace Database
 {
     class Context : DbContext
     {
@@ -19,13 +21,6 @@ namespace Entities.Entities
         public DbSet<WeighingImages> WeighingImages { get; set; }
         public DbSet<WeighingLog> WeighingLog { get; set; }
 
-        /* public DbSet<DatabaseSchemaVersion> DatabaseSchemaVersion { get; set; } */
-        /* public DbSet<OptimisticConcurrencyTokens> OptimisticConcurrencyTokens { get; set; } */
-        /* public DbSet<RegisterValues> RegisterValues { get; set; } */
-        /* public DbSet<VehicleDataValues> VehicleDataValues { get; set; } */
-        /* public DbSet<WeighingLogValues> WeighingLogValues { get; set; } */
-        /* public DbSet<WeighingReferences> WeighingReferences { get; set; } */
-
 
         public Context()
         {
@@ -35,7 +30,7 @@ namespace Entities.Entities
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Data Source=DESKTOP-20IU3S6\\SQLEXPRESS;Initial Catalog=weighings;Integrated Security=True");
+                File.ReadAllText("mssql-connection.cfg"));
         }
     }
 }

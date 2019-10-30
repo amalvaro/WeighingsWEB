@@ -1,10 +1,22 @@
-<h4 id="tableLabel" class="margin-top-25px">Журнал взвешиваний <img src="./assets/images/load.gif" height="50" *ngIf="!logs" /> </h4>
+<h4 id="tableLabel" class="margin-top-25px">
+  Журнал взвешиваний
+</h4>
+<h6 *ngIf="currentPage && data">Страница {{currentPage}}</h6>
 
 
-<div class="block-overflow">
-  <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="logs">
+<modal-picture *ngIf="currentModalPicture" dialog-name="picture-modal"
+               picture-link="data:image/jpeg;base64,{{currentModalPicture.imageData}}"
+               title="Просмотр изображений"></modal-picture>
+
+<div class="full-height margin-top-10p flex-center" *ngIf="!data">
+  <img src="./assets/images/loading.gif" height="150" />
+</div>
+
+<div class="block-overflow" *ngIf="data">
+  <table class='table table-striped ' aria-labelledby="tableLabel">
     <thead>
       <tr>
+        <th>Изображения</th>
         <th>Дата / время</th>
         <th>Вес</th>
         <th>Тип</th>
@@ -17,10 +29,27 @@
       </tr>
     </thead>
 
-    <!-- Лимит в 10 записей -->
+    <!-- Лимит в 5 записей -->
 
     <tbody>
-      <tr *ngFor="let log of logs">
+      <tr *ngFor="let log of data.response; let currentElement = index">
+        <td class="text-center">
+          <div *ngFor="let picture of log.weighingImages; let i = index">
+            <img class="picture-list-style"
+                 src="data:image/jpeg;base64,{{picture.imageData}}" width="150"
+                 [hidden]="!(i == slideState[currentElement])"
+                 (click)="SetModalPicture(currentElement, i)"
+                 data-toggle="modal" data-target="#picture-modal"/>
+          </div>
+
+          <div class="groupOf_btn-purple" *ngIf="log.weighingImages.length != 1">
+            <div class="left"
+                 (click)="ChangePicture(currentElement, false)"> </div>
+            <div class="right"
+                 (click)="ChangePicture(currentElement, true)"> </div>
+          </div>
+
+        </td>
         <td>  {{ log.timeStamp | date:'MM/dd/yyyy h:mm:ss'}}</td>
         <td>  {{ log.weight }}</td>
         <td>  {{ log.type == 0 ? 'порожнее' : 'груженое' }} </td>
@@ -34,4 +63,24 @@
     </tbody>
 
   </table>
+</div>
+
+<div *ngIf="data">
+  <div class="navigation">
+
+    <!-- Если на данный момент в списке страниц нет 1-ой страницы - показываем кнопку назад  -->
+    <a *ngIf="isShowPrevButton" [routerLink]="['/weighinglog-data', currentPageArrayNumbers[0] - 1]" (click)="UpdatePrevPageNumber(currentPageArrayNumbers[0] - 1)">Назад</a>
+
+    <!-- Номера страниц -->
+    <a [routerLink]="['/weighinglog-data', pageNumber]"
+       (click)="UpdateContent(pageNumber)"
+       *ngFor="let pageNumber of currentPageArrayNumbers">{{pageNumber}}</a>
+
+    <!--Кнопка дальше -->
+
+    <a *ngIf="!isThisFinishPage" [routerLink]="['/weighinglog-data', lastPageNumber]"
+       (click)="UpdateNextPageNumber(lastPageNumber)">Дальше</a>
+
+
+  </div>
 </div>
