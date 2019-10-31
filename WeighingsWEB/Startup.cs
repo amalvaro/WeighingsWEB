@@ -23,8 +23,12 @@ namespace WeighingsWEB
 
 		public void ConfigureServices(IServiceCollection services)
 		{
-			///services.AddSingleton<DbContext, Context>();
-			// services.AddDbContext<Context>(ServiceLifetime.Transient);
+
+			services.AddMvc()
+				.AddJsonOptions(options =>
+				{
+					options.JsonSerializerOptions.IgnoreNullValues = true;
+				});
 
 			services.AddTransient<DbContext, Context> ();
 
