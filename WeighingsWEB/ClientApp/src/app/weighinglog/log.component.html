@@ -1,8 +1,31 @@
-<h4 id="tableLabel" class="margin-top-25px">
-  Журнал взвешиваний
-</h4>
-<h6 *ngIf="currentPage && data">Страница {{currentPage}}</h6>
 
+<div class="container">
+  <div class="row">
+      <div class="col-sm-6">
+        <h4 id="tableLabel" class="margin-top-25px">
+          Журнал взвешиваний
+        </h4>
+        <h6 *ngIf="currentPage && data">Страница {{currentPage}}</h6>
+      </div>
+      <div class="col-sm-6 text-right">
+        <!-- dropdownToggle -->
+        <div class="btn-group margin-top-25px"  dropdown>
+          <button id="button-basic" type="button" dropdownToggle class="btn btn-secondary dropdown-toggle"
+                  aria-controls="dropdown-basic">
+            Фильтр <span class="caret"></span>
+          </button>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu "
+              role="menu" aria-labelledby="button-basic">
+
+            <li><label class="checkbox"><input type="checkbox" class="margin-10px">One</label></li>
+            <li><label class="checkbox"><input type="checkbox" class="margin-10px">Two</label></li>
+
+          </ul>
+        </div>
+
+      </div>
+    </div>
+</div>
 
 <modal-picture *ngIf="currentModalPicture" dialog-name="picture-modal"
                picture-link="data:image/jpeg;base64,{{currentModalPicture.imageData}}"
@@ -34,24 +57,8 @@
     <tbody>
       <tr *ngFor="let log of data.response; let currentElement = index">
         <td class="text-center">
+          <!-- <weighing-slider [weighing-picture-array]="log.weighingImages" picture-size="150" slider-name="logInfoSlider"></weighing-slider>-->
 
-          <weighing-slider [weighing-picture-array]="log.weighingImages" picture-size="150" slider-name="logInfoSlider"></weighing-slider>
-
-          <!--<div *ngFor="let picture of log.weighingImages; let i = index">
-    <img class="picture-list-style"
-         src="data:image/jpeg;base64,{{picture.imageData}}" width="150"
-         [hidden]="!(i == slideState[currentElement])"
-         (click)="SetModalPicture(currentElement, i)"
-         data-toggle="modal" data-target="#picture-modal"/>
-  </div>
-
-  <div class="groupOf_btn-purple" *ngIf="log.weighingImages.length != 1">
-    <div class="left"
-         (click)="ChangePicture(currentElement, false)"> </div>
-    <div class="right"
-         (click)="ChangePicture(currentElement, true)"> </div>
-  </div>
-      -->
         </td>
         <td>  {{ log.timeStamp | date:'MM/dd/yyyy h:mm:ss'}}</td>
         <td>  {{ log.weight }}</td>
@@ -87,3 +94,4 @@
 
   </div>
 </div>
+

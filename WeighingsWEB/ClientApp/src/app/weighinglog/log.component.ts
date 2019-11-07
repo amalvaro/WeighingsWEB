@@ -4,6 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { WeighingLog } from "src/data/structure/WeighingLog";
 
 import { WeighingImages } from '../../data/structure/WeghingImages';
+
+
+
 /*import { style, state, animate, transition, trigger } from '@angular/animations'; */
 
 @Component({
@@ -44,6 +47,23 @@ export class WeighingLogComponent {
         );
 
 
+
+    }
+
+    openDropdown() {
+        var element: HTMLElement = document.getElementById("dropdown_filter");
+
+        element.classList.add("open");
+        element.classList.add("show");
+    }
+
+    closeDropdown() {
+        var element: HTMLElement = document.getElementById("dropdown_filter");
+        // var dropbody: HTMLElement = document.getElementById("dropdown-basic");
+
+        // dropbody.classList.remove("show");
+        element.classList.remove("open");
+        element.classList.remove("show");
     }
 
     get currentPage(): number {

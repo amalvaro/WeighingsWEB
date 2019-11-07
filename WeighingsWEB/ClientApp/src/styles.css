@@ -177,8 +177,7 @@ code {
 
 
 .groupOf_btn-purple {
-  margin: 10px;
-  height: 10px;
+
 }
 
   .groupOf_btn-purple .left {
@@ -186,7 +185,6 @@ code {
     padding: 5px;
     margin: 5px;
     cursor: pointer;
-    background: url('assets/images/back.png');
     width: 10px;
     background-size: cover;
   }
@@ -194,9 +192,7 @@ code {
   float: right;
   padding: 5px;
   margin: 5px;
-  transform: scale(-1, 1);
   cursor: pointer;
-  background: url('assets/images/back.png');
   background-size:cover;
   width: 10px;
 }
@@ -225,7 +221,7 @@ code {
   .recent-weighing-group > div {
     display: flex;
     width: 250px;
-    height: 300px;
+    height: 250px;
     /* background-color: red; */
     margin: 5px;
     /* background-image: linear-gradient(326deg, #827af7 0%, rgb(173, 168, 245) 74%); */
@@ -270,3 +266,32 @@ code {
     background-color: #827af7;
     border-color: #827af7;
   }
+
+  .margin-10px {
+    margin:10px;
+  }
+  .position-rel {
+    position:relative;
+  }
+.position-abs {
+  position: absolute;
+  bottom: 45%;
+  width: 100%;
+}
+.groupOf_btn-purple img {
+  margin-left: 20px;
+  margin-right: 20px;
+  
+}
+
+.groupOf_btn-purple .l {
+  opacity: 0.7;
+  float: left;
+  cursor: pointer;
+}
+
+.groupOf_btn-purple .r {
+  opacity: 0.7;
+  float: right;
+  cursor: pointer;
+}

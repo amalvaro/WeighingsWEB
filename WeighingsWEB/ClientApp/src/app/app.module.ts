@@ -15,6 +15,10 @@ import { ExportDataComponent } from './export/export.component';
 import { ModalPictureComponent } from "./modal-dialog/modal.component";
 import { ExpandInfoComponent } from "./modal-dialog/expand-info.component";
 import { SliderComponent } from "./weighing-picture-slider/slider.component";
+// import { NgbModule } from 'bootstrap/js/src'
+
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 
 @NgModule({
   declarations: [
@@ -29,7 +33,8 @@ import { SliderComponent } from "./weighing-picture-slider/slider.component";
     ExpandInfoComponent,
     SliderComponent
   ],
-  imports: [
+    imports: [
+    BsDropdownModule.forRoot(),
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,

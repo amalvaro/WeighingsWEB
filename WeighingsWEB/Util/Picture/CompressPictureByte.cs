@@ -16,12 +16,13 @@ namespace Util.Picture
 
 		public CompressPictureByte(byte[] pictureArray)
 		{
-			MemoryStream memoryStream = new MemoryStream(
-				pictureArray ?? throw new ArgumentNullException("Нулевой массив байт")
-			);
+			using (MemoryStream memoryStream = new MemoryStream(
+				pictureArray ?? throw new ArgumentNullException("Нулевой массив байт")))
+			{
 
-			bitmap = new Bitmap(memoryStream);
-			memoryStream.Close();
+				bitmap = new Bitmap(memoryStream);
+				memoryStream.Close();
+			}
 		}
 
 		public CompressPictureByte Resize(float compressRation)
@@ -40,23 +41,25 @@ namespace Util.Picture
 
 		public CompressPictureByte Compress(string type, int quality)
 		{
-			ImageCodecInfo encoder = ImageCodecInfo
-				.GetImageEncoders()
-				.First(e => e.MimeType == $"image/{type}");
-
-	
-			EncoderParameters encoderParameter = new EncoderParameters
+			using (MemoryStream memoryStream = new MemoryStream())
 			{
-				Param = new [] { 
-					new EncoderParameter(Encoder.Quality, quality) 
-				}
-			};
+				ImageCodecInfo encoder = ImageCodecInfo
+					.GetImageEncoders()
+					.First(e => e.MimeType == $"image/{type}");
 
-			MemoryStream memoryStream = new MemoryStream();
-			bitmap.Save(memoryStream, encoder, encoderParameter);
-			bitmap = (Bitmap)Image.FromStream(memoryStream);
-			memoryStream.Close(); 
 
+				EncoderParameters encoderParameter = new EncoderParameters
+				{
+					Param = new[] {
+					new EncoderParameter(Encoder.Quality, quality)
+					}
+				};
+
+
+				bitmap.Save(memoryStream, encoder, encoderParameter);
+				bitmap = (Bitmap)Image.FromStream(memoryStream);
+				memoryStream.Close();
+			}
 			return this;
 
 		}
@@ -79,19 +82,6 @@ namespace Util.Picture
 			return pictureArray;
 		}
 
-		/* public byte[] GetPictureArrayResult(Guid pictureId)
-		{
-			// MemoryStream memoryStream = new MemoryStream();
-			// bitmap.Save(memoryStream, ImageFormat.Jpeg, new EncoderParameter())
-			ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
-			ImageCodecInfo encoder	= null;
-
-			foreach (var codec in codecs)
-			{
-				
-			} 
-
-		} */
 
 		public Bitmap GetPictureResult()
 		{
