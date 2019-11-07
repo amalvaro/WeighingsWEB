@@ -39,6 +39,10 @@ export class WeighingLogComponent {
 
     public slideState: number[] = [];
     public currentModalPicture: WeighingImages;
+    public currentDialogData: WeighingLog;
+
+    public filterState: boolean[] = [true, true, true, true, true, true, true, true, true];
+
 
     constructor(private route: ActivatedRoute, private http: HttpClient, @Inject('BASE_URL') private  baseUrl: string) {
 
@@ -50,13 +54,31 @@ export class WeighingLogComponent {
 
     }
 
-    openDropdown() {
-        var element: HTMLElement = document.getElementById("dropdown_filter");
-
-        element.classList.add("open");
-        element.classList.add("show");
+    dropDownCheckedState(id:number) {
+        this.filterState[id] = !this.filterState[id];
     }
 
+    openDropdown() {
+
+        var element: Element = document.getElementById("btn-showFilter");
+
+        var btn: Element  = element.getElementsByClassName("btn")[0];
+        var menu: Element = element.getElementsByClassName("dropdown-menu")[0];
+
+        if (menu.classList.contains("open")) {
+            menu.classList.remove("open", "show");
+            btn.classList.add("btn-secondary");
+            btn.classList.remove("btn-danger");
+
+        } else {
+            menu.classList.add("open", "show");
+            btn.classList.remove("btn-secondary");
+            btn.classList.add("btn-danger");
+        }
+    }
+    SetCurrentDialogData(Id: number) {
+        this.currentDialogData = this.data.response[Id];
+    }
     closeDropdown() {
         var element: HTMLElement = document.getElementById("dropdown_filter");
         // var dropbody: HTMLElement = document.getElementById("dropdown-basic");
@@ -65,11 +87,9 @@ export class WeighingLogComponent {
         element.classList.remove("open");
         element.classList.remove("show");
     }
-
     get currentPage(): number {
         return !this.currentPageCounter ? 1 : this.currentPageCounter;
     }
-
     UpdateContent(page:any = 1): void {
 
         page = page == null ? 1 : page;
@@ -99,7 +119,6 @@ export class WeighingLogComponent {
 
         }, error => console.error(error));
     }
-
     UpdateNextPageNumber(currentPage: number = 1): void {
 
         var startAt: number = (Math.ceil(currentPage / this.MAX_PAGE_COUNT) - 1 +
@@ -117,7 +136,6 @@ export class WeighingLogComponent {
 
         }
     }
-
     UpdatePrevPageNumber(currentPage: number = 1): void {
         /* var startAt: number = (Math.ceil(currentPage / this.MAX_PAGE_COUNT) - 1 + (1 / this.MAX_PAGE_COUNT)) / (1 / this.MAX_PAGE_COUNT); */
         this.currentPageArrayNumbers = [];
@@ -131,11 +149,9 @@ export class WeighingLogComponent {
         }
         this.currentPageArrayNumbers.reverse();
     }
-
     get isShowPrevButton(): boolean {
         return this.currentPageArrayNumbers[0] != 1;
     }
-
     get lastPageNumber(): number {
         return this.currentPageArrayNumbers[this.currentPageArrayNumbers.length - 1] + 1;
     }

@@ -16,9 +16,67 @@
 
         <weighing-slider [weighing-picture-array]="data.weighingImages" slider-name="expandedInfoSlider" [disable-size-picture]="true"></weighing-slider>
 
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Параметр</th>
+              <th>Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Оператор</td>
+              <td>{{ data.operator }}</td>
+            </tr>
+            <tr>
+              <td>Дата / время</td>
+              <td>{{ data.timeStamp | date:'MM/dd/yyyy h:mm:ss'}}</td>
+            </tr>
+            <tr>
+              <td>Вес</td>
+              <td> {{ data.weight }}</td>
+            </tr>
+            <tr>
+              <td>Тип</td>
+              <td>{{ data.type == 0 ? 'порожнее' : 'груженое' }}</td>
+            </tr>
+
+            <tr>
+              <td>Предыдущее</td>
+              <td>{{ data.previousWeighing == null ? ('—') : (data.previousWeighing.timeStamp | date:'MM/dd/yyyy h:mm:ss') }}</td>
+            </tr>
+
+            <tr>
+              <td>Пред. вес</td>
+              <td>{{ data.previousWeighing == null ? ('—') : (data.previousWeighing.weight) }}</td>
+            </tr>
+
+            <tr>
+              <td>Нетто</td>
+              <td>{{ data.previousWeighing == null ? ('—') : (data.weight-data.previousWeighing.weight) }}</td>
+            </tr>
+
+            <tr>
+              <td>ГРЗ ТС</td>
+              <td>{{ data.vehiclePlate }}</td>
+            </tr>
+
+            <tr>
+              <td>Владелец ТС</td>
+              <td>{{ data.vehicle.owner == null ? ('—') : (data.vehicle.owner) }}</td>
+            </tr>
+            <tr>
+              <td>ГРЗ прицепа</td>
+              <td>{{ data.trailerPlate == null ? ('—') : (data.trailerPlate) }}</td>
+            </tr>
+
+
+          </tbody>
+        </table>
+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-secondary margin-10px" data-dismiss="modal">Закрыть</button>
       </div>
     </div>
   </div>

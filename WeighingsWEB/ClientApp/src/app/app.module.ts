@@ -18,7 +18,7 @@ import { SliderComponent } from "./weighing-picture-slider/slider.component";
 // import { NgbModule } from 'bootstrap/js/src'
 
 // import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
+// import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
     SliderComponent
   ],
     imports: [
-    BsDropdownModule.forRoot(),
+    //BsDropdownModule.forRoot(),
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,

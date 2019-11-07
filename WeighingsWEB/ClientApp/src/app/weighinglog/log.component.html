@@ -7,18 +7,28 @@
         </h4>
         <h6 *ngIf="currentPage && data">Страница {{currentPage}}</h6>
       </div>
+
       <div class="col-sm-6 text-right">
         <!-- dropdownToggle -->
-        <div class="btn-group margin-top-25px"  dropdown>
-          <button id="button-basic" type="button" dropdownToggle class="btn btn-secondary dropdown-toggle"
-                  aria-controls="dropdown-basic">
-            Фильтр <span class="caret"></span>
+        <div class="btn-group margin-top-25px"   id="btn-showFilter">
+          <button id="button-basic" type="button"  class="btn btn-secondary dropdown-toggle"
+                  aria-controls="dropdown-basic"
+                  (click)="openDropdown()" style="margin-bottom: 10px;">
+            Фильтр столбцов <span class="caret"></span>
           </button>
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu "
+          <ul id="dropdown-basic" class="dropdown-menu "
               role="menu" aria-labelledby="button-basic">
 
-            <li><label class="checkbox"><input type="checkbox" class="margin-10px">One</label></li>
-            <li><label class="checkbox"><input type="checkbox" class="margin-10px">Two</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(0)" type="checkbox"  [checked]="filterState[0]" class="margin-10px">Дата / время</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(1)" type="checkbox" [checked]="filterState[1]" class="margin-10px">Вес</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(2)" type="checkbox" [checked]="filterState[2]" class="margin-10px">Тип</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(3)" type="checkbox" [checked]="filterState[3]" class="margin-10px">Предыдущее</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(4)" type="checkbox" [checked]="filterState[4]" class="margin-10px">Пред. вес</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(5)" type="checkbox" [checked]="filterState[5]" class="margin-10px">Нетто</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(6)" type="checkbox" [checked]="filterState[6]" class="margin-10px">ГРЗ ТС</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(7)" type="checkbox" [checked]="filterState[7]" class="margin-10px">Владелец ТС	</label></li>
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(8)" type="checkbox" [checked]="filterState[8]" class="margin-10px">ГРЗ прицепа</label></li>
+            <li class="text-center"><button class="btn btn-danger" (click)="openDropdown()"> <div class="font-12px">  Закрыть </div> </button></li>
 
           </ul>
         </div>
@@ -35,20 +45,25 @@
   <img src="./assets/images/loading.gif" height="150" />
 </div>
 
+<modal-info *ngIf="currentDialogData"
+            dialog-name="expanded-data"
+            title="Информация о взвешивании"
+            [data]="currentDialogData"></modal-info>
+
 <div class="block-overflow" *ngIf="data">
   <table class='table table-striped ' aria-labelledby="tableLabel">
     <thead>
       <tr>
-        <th>Изображения</th>
-        <th>Дата / время</th>
-        <th>Вес</th>
-        <th>Тип</th>
-        <th>Предыдущее</th>
-        <th>Пред. вес</th>
-        <th>Нетто</th>
-        <th>ГРЗ ТС</th>
-        <th>Владелец ТС</th>
-        <th>ГРЗ прицепа</th>
+        <th></th>
+        <th *ngIf="filterState[0]">Дата / время</th>
+        <th *ngIf="filterState[1]">Вес</th>
+        <th *ngIf="filterState[2]">Тип</th>
+        <th *ngIf="filterState[3]">Предыдущее</th>
+        <th *ngIf="filterState[4]">Пред. вес</th>
+        <th *ngIf="filterState[5]">Нетто</th>
+        <th *ngIf="filterState[6]">ГРЗ ТС</th>
+        <th *ngIf="filterState[7]">Владелец ТС</th>
+        <th *ngIf="filterState[8]">ГРЗ прицепа</th>
       </tr>
     </thead>
 
@@ -56,19 +71,20 @@
 
     <tbody>
       <tr *ngFor="let log of data.response; let currentElement = index">
+
         <td class="text-center">
           <!-- <weighing-slider [weighing-picture-array]="log.weighingImages" picture-size="150" slider-name="logInfoSlider"></weighing-slider>-->
-
+          <button class="btn btn-purple margin-top-10px" data-target="#expanded-data" data-toggle="modal" (click)="SetCurrentDialogData(currentElement)">Подробнее</button>
         </td>
-        <td>  {{ log.timeStamp | date:'MM/dd/yyyy h:mm:ss'}}</td>
-        <td>  {{ log.weight }}</td>
-        <td>  {{ log.type == 0 ? 'порожнее' : 'груженое' }} </td>
-        <td>  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.timeStamp | date:'MM/dd/yyyy h:mm:ss') }}</td>
-        <td>  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.weight) }} </td>
-        <td>  {{ log.previousWeighing == null ? ('—') : (log.weight-log.previousWeighing.weight) }} </td>
-        <td>  {{ log.vehiclePlate }}</td>
-        <td>  {{ log.vehicle.owner == null ? ('—') : (log.vehicle.owner) }} </td>
-        <td>  {{ log.trailerPlate == null ? ('—') : (log.trailerPlate) }} </td>
+        <td *ngIf="filterState[0]">  {{ log.timeStamp | date:'MM/dd/yyyy h:mm:ss'}}</td>
+        <td *ngIf="filterState[1]">  {{ log.weight }}</td>
+        <td *ngIf="filterState[2]">  {{ log.type == 0 ? 'порожнее' : 'груженое' }} </td>
+        <td *ngIf="filterState[3]">  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.timeStamp | date:'MM/dd/yyyy h:mm:ss') }}</td>
+        <td *ngIf="filterState[4]">  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.weight) }} </td>
+        <td *ngIf="filterState[5]">  {{ log.previousWeighing == null ? ('—') : (log.weight-log.previousWeighing.weight) }} </td>
+        <td *ngIf="filterState[6]">  {{ log.vehiclePlate }}</td>
+        <td *ngIf="filterState[7]">  {{ log.vehicle.owner == null ? ('—') : (log.vehicle.owner) }} </td>
+        <td *ngIf="filterState[8]">  {{ log.trailerPlate == null ? ('—') : (log.trailerPlate) }} </td>
       </tr>
     </tbody>
 

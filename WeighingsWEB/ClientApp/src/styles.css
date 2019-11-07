@@ -105,6 +105,11 @@ code {
 			box-shadow: 0 0 1px rgba(0,0,0,0.3);
 			background: white;
 		}
+
+.margin-top-10px {
+  margin-top: 10px;
+}
+
 .margin-top-25px {
 	margin-top: 25px;
 }
@@ -275,23 +280,60 @@ code {
   }
 .position-abs {
   position: absolute;
-  bottom: 45%;
+  bottom: 60%;
   width: 100%;
 }
 .groupOf_btn-purple img {
-  margin-left: 20px;
-  margin-right: 20px;
-  
+ /* margin-left: 20px;
+  margin-right: 20px;*/
+  cursor:pointer;
 }
+
 
 .groupOf_btn-purple .l {
   opacity: 0.7;
-  float: left;
-  cursor: pointer;
+  position: absolute;
+
+  left: 10%;
+
+  /* float: left;
+  cursor: pointer;*/
 }
 
 .groupOf_btn-purple .r {
   opacity: 0.7;
-  float: right;
-  cursor: pointer;
+  position: absolute;
+  right: 10%;
+  /*float: right;
+  cursor: pointer;*/
+}
+
+.font-12px {
+  font-size: 12px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  left: -60px;
+  /* right: 60px; */
+  z-index: 1000;
+  display: none;
+  float: left;
+  min-width: 10rem;
+  padding: .5rem 0;
+  margin: .125rem 0 0;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.15);
+  border-radius: .25rem;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0;
 }

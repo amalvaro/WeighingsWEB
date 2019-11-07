@@ -1,28 +1,27 @@
 
-  <div class="position-rel">
+  <div class="position-rel" >
     <modal-picture *ngIf="currentModalPicture && !disable_size" dialog-name="{{slider_name}}"
                    picture-link="data:image/jpeg;base64,{{currentModalPicture.imageData}}"
                    title="Просмотр изображений"></modal-picture>
 
-    <div *ngFor="let picture of weighingImagesArray; let i = index">
+    <div *ngFor="let picture of weighingImagesArray; let i = index"
+         data-toggle="modal"
+         [attr.data-target]="TransfromToId(slider_name)"
+         style="cursor:pointer">
 
       <img *ngIf="!picture_size" class="picture-list-style img-fluid"
            src="data:image/jpeg;base64,{{picture.imageData}}"
            [hidden]="!(i == currentPicture)"
-           data-toggle="modal" [attr.data-target]="TransfromToId(slider_name)"
+           
            (click)="ApplyDialogPicture(i)" />
 
       <img *ngIf="picture_size" class="picture-list-style img-fluid"
            src="data:image/jpeg;base64,{{picture.imageData}}" width="{{picture_size}}"
            [hidden]="!(i == currentPicture)"
-           data-toggle="modal" [attr.data-target]="TransfromToId(slider_name)"
            (click)="ApplyDialogPicture(i)" />
 
     </div>
 
-    <!--<div class="position-abs">
-    qu
-  </div>-->
 
     <div class="groupOf_btn-purple position-abs ">
       <img (click)="ChangePicture(false)" src="assets/images/back.png" width="30" class="l" />
