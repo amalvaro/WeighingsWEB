@@ -28,9 +28,11 @@ namespace Database
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
+        {   
+
             optionsBuilder.UseSqlServer(
                 File.ReadAllText("mssql-connection.cfg"));
+                
         }
     }
 }

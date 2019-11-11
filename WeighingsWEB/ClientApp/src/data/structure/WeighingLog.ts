@@ -18,7 +18,7 @@ export interface WeighingLog {
     type: number,
     flags: number,
     axlesWeighingFlags: number,
-    isDeleted: boolean
+    isDeleted: boolean,
     deletedById: number,
     deletedOn: string,
     deletionReason: string,

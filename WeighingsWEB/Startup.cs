@@ -23,6 +23,8 @@ namespace WeighingsWEB
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			
+
 
 			services.AddMvc()
 				.AddJsonOptions(options =>
@@ -41,6 +43,12 @@ namespace WeighingsWEB
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			app.UseCookiePolicy();
+			
+			/* Этот компонент Middleware необходим для проверки существования строки подключения MSSQL  */
+			// app.UseMiddleware<MSSQLConnectionMiddleware>();
+			
+			// app.UseForwardedHeaders
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();

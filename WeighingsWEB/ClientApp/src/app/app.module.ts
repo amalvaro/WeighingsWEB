@@ -12,9 +12,12 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { WeighingLogComponent } from './weighinglog/log.component';
 import { ExportDataComponent } from './export/export.component';
 
+import { ControlDataComponent } from './control/control.component';
+
 import { ModalPictureComponent } from "./modal-dialog/modal.component";
 import { ExpandInfoComponent } from "./modal-dialog/expand-info.component";
 import { SliderComponent } from "./weighing-picture-slider/slider.component";
+import { MSSQLConnection } from "./mssql-connection/connection.component";
 // import { NgbModule } from 'bootstrap/js/src'
 
 // import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -31,7 +34,9 @@ import { SliderComponent } from "./weighing-picture-slider/slider.component";
     ExportDataComponent,
     ModalPictureComponent,
     ExpandInfoComponent,
-    SliderComponent
+    SliderComponent,
+    MSSQLConnection,
+    ControlDataComponent
   ],
     imports: [
     //BsDropdownModule.forRoot(),
@@ -44,7 +49,8 @@ import { SliderComponent } from "./weighing-picture-slider/slider.component";
         { path: 'fetch-data', component: FetchDataComponent },
         { path: 'weighinglog-data', component: WeighingLogComponent },
         { path: 'weighinglog-data/:page', component: WeighingLogComponent }, /* export-data */
-        { path: 'export-data', component: ExportDataComponent }
+        { path: 'export-data', component: ExportDataComponent },
+        { path: 'control-data', component: ControlDataComponent }
     ])
   ],
   providers: [],

@@ -4,7 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { WeighingLog } from "src/data/structure/WeighingLog";
 
 import { WeighingImages } from '../../data/structure/WeghingImages';
+import { Cookie } from '../util/cookie';
 
+import { Router } from '@angular/router';
 
 
 /*import { style, state, animate, transition, trigger } from '@angular/animations'; */
@@ -45,27 +47,46 @@ export class WeighingLogComponent {
 
 
     constructor(private route: ActivatedRoute, private http: HttpClient, @Inject('BASE_URL') private  baseUrl: string) {
-
         this.UpdateContent(
             route.snapshot.paramMap.get("page")
         );
 
+        /* Загрузка фильтра столбцов */
+        let val = Cookie.getCookieObject<boolean[]>("filterState");
+        this.filterState = !val ? this.filterState : val;
 
+        /* Загрузка фильтра данных */
+        let searchParams = Cookie.getCookieObject<any>("searchParams");
+        this.filterData = !searchParams ? this.filterData : searchParams;
 
     }
 
     dropDownCheckedState(id:number) {
         this.filterState[id] = !this.filterState[id];
+        Cookie.setObject("filterState", this.filterState);
     }
 
-    openDropdown() {
+    openDropdown(id:string) {
 
-        var element: Element = document.getElementById("btn-showFilter");
+        
 
+        var element: Element = document.getElementById(id);
         var btn: Element  = element.getElementsByClassName("btn")[0];
         var menu: Element = element.getElementsByClassName("dropdown-menu")[0];
 
-        if (menu.classList.contains("open")) {
+
+        $(document.body).mouseup(function (e) {
+            var container = $(element);
+            if (container.has(e.target).length === 0) {
+                menu.classList.remove("open", "show");
+                btn.classList.add("btn-secondary");
+                btn.classList.remove("btn-danger");
+                $(document.body).unbind(e);
+            } 
+        });
+
+        if (menu.classList.contains("show")) {
+
             menu.classList.remove("open", "show");
             btn.classList.add("btn-secondary");
             btn.classList.remove("btn-danger");
@@ -76,20 +97,50 @@ export class WeighingLogComponent {
             btn.classList.add("btn-danger");
         }
     }
+
+
+    public filterData: any = {
+        date:           { from: null, to: null },
+        typeAndStatus:  { firstSelection: null, secondSelection: null },
+        carNumber:      { carNumber: null, fullContain: false },
+        directory:      { firstSelection: null, secondSelection: null },
+        values:         { value: null, selection: null, fullContain: null }
+    };
+
+
+    AcceptSearchParameters() {
+        Cookie.setObject("searchParams", this.filterData);
+        this.UpdateContent();
+    }
+
+    ClearSearchParameters() {
+        this.filterData = {
+            date: { from: null, to: null },
+            typeAndStatus: { firstSelection: null, secondSelection: null },
+            carNumber: { carNumber: null, fullContain: false },
+            directory: { firstSelection: null, secondSelection: null },
+            values: { value: null, selection: null, fullContain: null }
+        };
+        Cookie.deleteCookie("searchParams");
+
+        this.UpdateContent();
+
+    }
+
     SetCurrentDialogData(Id: number) {
         this.currentDialogData = this.data.response[Id];
     }
+
     closeDropdown() {
         var element: HTMLElement = document.getElementById("dropdown_filter");
-        // var dropbody: HTMLElement = document.getElementById("dropdown-basic");
-
-        // dropbody.classList.remove("show");
         element.classList.remove("open");
         element.classList.remove("show");
     }
+
     get currentPage(): number {
         return !this.currentPageCounter ? 1 : this.currentPageCounter;
     }
+
     UpdateContent(page:any = 1): void {
 
         page = page == null ? 1 : page;

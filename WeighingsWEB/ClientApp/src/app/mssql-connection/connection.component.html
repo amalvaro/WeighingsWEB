@@ -1,0 +1,10 @@
+<form class="margin-top-50px margin-left-50px margin-right-50px">
+    <div class="form-group">
+        <label for="connectionString">Строка подключения</label>
+        <input type="text" [(ngModel)]="connectionString" [ngModelOptions]="{standalone: true}" id="connectionString" class="form-control ">
+        <small class="form-text text-muted" id="connectionStringNotify">Введите строку подключения к MSSQL-серверу</small>
+    </div>
+    <button 
+        class="btn btn-primary" 
+        (click)="SendSQLConnectionString()">Подключиться </button> <img *ngIf="responseLoading" src="./assets/images/load.gif" height="50" />
+</form>

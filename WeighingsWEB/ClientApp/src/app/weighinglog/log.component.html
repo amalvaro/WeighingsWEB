@@ -10,16 +10,84 @@
 
       <div class="col-sm-6 text-right">
         <!-- dropdownToggle -->
-        <div class="btn-group margin-top-25px"   id="btn-showFilter">
-          <button id="button-basic" type="button"  class="btn btn-secondary dropdown-toggle"
+        <div class="btn-group margin-top-25px" id="btn-showFilter">
+          <button id="button-basic" type="button" class="btn btn-secondary dropdown-toggle"
                   aria-controls="dropdown-basic"
-                  (click)="openDropdown()" style="margin-bottom: 10px;">
-            Фильтр столбцов <span class="caret"></span>
+                  (click)="openDropdown('btn-showFilter')" style="margin-bottom: 10px;">
+            Фильтр данных <span class="caret"></span>
           </button>
-          <ul id="dropdown-basic" class="dropdown-menu "
+          <ul id="dropdown-basic" class="dropdown-menu ul-max-height"
               role="menu" aria-labelledby="button-basic">
 
-            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(0)" type="checkbox"  [checked]="filterState[0]" class="margin-10px">Дата / время</label></li>
+            <li class="margin-10px">
+              <div class="font-12px">Выберите диапазон дат с <input [(ngModel)]="filterData.date.from" class="form-control" type="datetime-local" /></div>
+              <div class="font-12px">По <input [(ngModel)]="filterData.date.to" class="form-control" type="datetime-local" /></div>
+
+              <!--<button (click)="test()">test</button>-->
+
+            </li>
+
+            <li class="margin-10px">
+              <div class="font-12px">Тип и статус</div>
+              <select class="form-control" [(ngModel)]="filterData.typeAndStatus.firstSelection">
+                <option>1</option>
+                <option>1</option>
+                <option>1</option>
+              </select>
+              <select class="form-control margin-top-5px" [(ngModel)]="filterData.typeAndStatus.secondSelection">
+                <option>1</option>
+                <option>1</option>
+                <option>1</option>
+              </select>
+            </li>
+
+
+            <li class="margin-10px">
+              <div class="font-12px">Введите номер ТС <input [(ngModel)]="filterData.carNumber.carNumber" class="form-control" type="text" /></div>
+              <div class="font-12px margin-top-5px"><input [(ngModel)]="filterData.carNumber.fullContain" [ngModelOptions]="{standalone: true}" type="checkbox" /> Полное совпадение  </div>
+            </li>
+
+            <li class="margin-10px">
+              <div class="font-12px">Справочники</div>
+              <select class="form-control" [(ngModel)]="filterData.directory.firstSelection">
+                <option>1</option>
+                <option>1</option>
+                <option>1</option>
+              </select>
+              <select class="form-control margin-top-5px" [(ngModel)]="filterData.directory.secondSelection">
+                <option>1</option>
+                <option>1</option>
+                <option>1</option>
+              </select>
+            </li>
+
+            <li class="margin-10px">
+              <div class="font-12px">Значение<input [(ngModel)]="filterData.values.value" class="form-control" type="text" /></div>
+              <select class="form-control margin-top-5px" [(ngModel)]="filterData.values.selection">
+                <option>1</option>
+                <option>1</option>
+                <option>1</option>
+              </select>
+              <div class="font-12px margin-top-5px"><input [(ngModel)]="filterData.values.fullContain" [ngModelOptions]="{standalone: true}" type="checkbox" /> Полное совпадение  </div>
+            </li>
+
+            <li class="text-center"><button class="btn btn-success w-100 pad-15px" (click)="AcceptSearchParameters()"> <div class="font-12px">  Применить </div> </button></li>
+            <li class="text-center"><button class="btn btn-warning w-100 pad-15px" (click)="ClearSearchParameters()"> <div class="font-12px">  Очистить </div> </button></li>
+            <li class="text-center"><button class="btn btn-danger w-100 pad-15px" (click)="openDropdown('btn-showFilter')"> <div class="font-12px">  Закрыть </div> </button></li>
+
+          </ul>
+        </div>
+
+        <div class="btn-group margin-top-25px margin-left-5px" id="btn-showDataFilter">
+          <button id="button-basic" type="button" class="btn btn-secondary dropdown-toggle"
+                  aria-controls="dropdown-basic"
+                  (click)="openDropdown('btn-showDataFilter')" style="margin-bottom: 10px;">
+            Фильтр столбцов <span class="caret"></span>
+          </button>
+          <ul id="dropdown-basic" class="dropdown-menu ul-max-height"
+              role="menu" aria-labelledby="button-basic">
+
+            <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(0)" type="checkbox" [checked]="filterState[0]" class="margin-10px">Дата / время</label></li>
             <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(1)" type="checkbox" [checked]="filterState[1]" class="margin-10px">Вес</label></li>
             <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(2)" type="checkbox" [checked]="filterState[2]" class="margin-10px">Тип</label></li>
             <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(3)" type="checkbox" [checked]="filterState[3]" class="margin-10px">Предыдущее</label></li>
@@ -28,7 +96,7 @@
             <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(6)" type="checkbox" [checked]="filterState[6]" class="margin-10px">ГРЗ ТС</label></li>
             <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(7)" type="checkbox" [checked]="filterState[7]" class="margin-10px">Владелец ТС	</label></li>
             <li><label class="checkbox font-12px"><input (click)="dropDownCheckedState(8)" type="checkbox" [checked]="filterState[8]" class="margin-10px">ГРЗ прицепа</label></li>
-            <li class="text-center"><button class="btn btn-danger" (click)="openDropdown()"> <div class="font-12px">  Закрыть </div> </button></li>
+            <li class="text-center"><button class="btn btn-danger" (click)="openDropdown('btn-showDataFilter')"> <div class="font-12px">  Закрыть </div> </button></li>
 
           </ul>
         </div>
