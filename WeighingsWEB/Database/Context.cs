@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Database;
 
 namespace Database
 {
@@ -29,10 +30,17 @@ namespace Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {   
+            DatabaseConfiguration configuration = new DatabaseConfiguration("mssql-connection.cfg");
 
-            optionsBuilder.UseSqlServer(
-                File.ReadAllText("mssql-connection.cfg"));
-                
+            string s = configuration.BuildConnectionString();
+
+            /*Console.WriteLine("------ ||||||| --------------");
+            Console.WriteLine("------ ||||||| --------------");
+            Console.WriteLine(s);
+            Console.WriteLine("------ ||||||| --------------");
+            Console.WriteLine("------ ||||||| --------------"); */
+
+            optionsBuilder.UseSqlServer(s);    
         }
     }
 }

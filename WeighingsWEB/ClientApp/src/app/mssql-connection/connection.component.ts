@@ -14,14 +14,40 @@ import { BooleanResponse } from '../../data/structure/BooleanResponse';
 export class MSSQLConnection {
 
     constructor(private route: ActivatedRoute, private http: HttpClient, @Inject('BASE_URL') private  baseUrl: string) {
-        //   
     }
 
     public responseLoading:boolean = false;
 
     public connectionString:string = "";
     SendSQLConnectionString() { 
+
         this.responseLoading=true;
+        $("#ConnectionNotify").html("");
+
+        if(this.Verify()) {
+
+            let connectionUrl: string = "";
+
+            if(this.bIsWindowsAuthentication) {
+                connectionUrl = this.baseUrl + `connection/create?Server=${$("#DatabaseServerInput").val()}&Database=${$("#DatabaseNameInput").val()}`;
+            } else {
+
+            }
+            this.http.get<BooleanResponse>(connectionUrl).subscribe(result => {
+                this.responseLoading = false;
+                if(result.response == true) {
+                    document.location.href=document.location.href;
+                } else {
+                    $("#ConnectionNotify").html("Введенные данные некорректны");
+                }
+            }, error => console.log(error));
+
+        } else {
+            $("#ConnectionNotify").html("Проверьте правильность заполненных данных");
+            this.responseLoading=false;
+        }
+
+        /* this.responseLoading=true;
         $("#connectionString").removeClass("is-valid is-invalid");
         if(this.Verify()) {
             $("#connectionString").addClass("is-valid");
@@ -43,24 +69,39 @@ export class MSSQLConnection {
         else {
             $("#connectionString").addClass("is-invalid");
             this.responseLoading = false;
-        }
+        } */
     }
 
     Verify() : boolean {
 
-        let verifyArray:VerifyType[] = [
-            new VerifyType(
-                "#connectionString", /^(.{10,350})$/, 
-                "#connectionStringNotify", 
-                "Введите строку подключения к MSSQL-серверу", 
-                "Строка должна содержать от 10 до 350 символов."
-            )
-        ];
+        let verifyArray:VerifyType[];
+        if(this.bIsWindowsAuthentication) {
+            verifyArray = [
+                new VerifyType("#DatabaseServerInput", /^(.{1,350})$/),
+                new VerifyType("#DatabaseNameInput", /^(.{1,350})$/)
+            ];
+        } else {
+            verifyArray = [
+                new VerifyType("#DatabaseServerInput", /^(.{1,350})$/),
+                new VerifyType("#DatabaseNameInput", /^(.{1,350})$/),
+                new VerifyType("#DatabaseUserNameInput", /^(.{1,350})$/),
+                new VerifyType("#DatabaseUserPasswordInput", /^(.{1,350})$/)
+            ];
+        }
 
         return VerifyManager.Play(verifyArray);
     }
 
-
+    public bIsWindowsAuthentication:boolean = true;
+    CheckLoginAndPasswordInputs() {
+        if(this.bIsWindowsAuthentication == false) {
+            $("#DatabaseUserNameInput").attr('disabled','disabled');
+            $("#DatabaseUserPasswordInput").attr('disabled','disabled');
+        } else {
+            $("#DatabaseUserNameInput").removeAttr('disabled');
+            $("#DatabaseUserPasswordInput").removeAttr('disabled');
+        }
+    }
 
 
 }

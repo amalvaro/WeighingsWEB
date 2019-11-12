@@ -14,6 +14,7 @@ using WeighingsWEB.Controllers.Response.BasicResponses;
 using System.Web;
 
 
+
 namespace WeighingsWEB.Controllers
 {
 
@@ -33,27 +34,61 @@ namespace WeighingsWEB.Controllers
 		{
             bool bIsConnectionStringExists  = System.IO.File.Exists(MSSQL_FILE_PATH);
             if(bIsConnectionStringExists) {
-                bIsConnectionStringExists = 
-                    System.IO.File.ReadAllText(MSSQL_FILE_PATH).Trim().Length != 0;
+                try {
+                    /* Проверка корректности введенных данных */
+                    Context context = new Context();
+                }
+                catch(Exception) {
+                    bIsConnectionStringExists = false;
+                }
             }
             return new BooleanResponse(bIsConnectionStringExists);
 		}
 
+
         /* Метод для добавления строки подключения. */
-        public object Create(string connectionString) {
-            bool bResult = connectionString.Trim().Length != 0;
-            if(bResult) {
-                string sLastContent = System.IO.File.ReadAllText(MSSQL_FILE_PATH);
-                connectionString = System.Web.HttpUtility.UrlDecode(connectionString);
-                System.IO.File.WriteAllText(MSSQL_FILE_PATH, connectionString);
-                try {
-                    Context dbContext = new Context();
-                }
-                catch(Exception e) {
-                    bResult = false;
-                    System.IO.File.WriteAllText(MSSQL_FILE_PATH, sLastContent);
-                }
+        public object Create(string Server, string Database, string Login = null, string Password = null) {
+
+            Console.WriteLine("------");
+            Console.WriteLine(Server);
+            Console.WriteLine(Database);
+            Console.WriteLine(Login);
+            Console.WriteLine(Password);
+            Console.WriteLine("------");
+
+
+            bool bResult = true;
+            DatabaseConfiguration configuration = new DatabaseConfiguration("mssql-connection.cfg");
+
+            string[][] parameters;
+
+            if(Login != null && Password != null) {
+                parameters = new String[][] { 
+                    new String[] { "Server", "Database", "Login", "Password" },
+                    new String[] { Server, Database, Login, Password }
+                };
+            } else {
+                parameters = new String[][] { 
+                    new String[] { "Server", "Database", "WindowsAuthentication" },
+                    new String[] { Server, Database, "true" }
+                };
             }
+            string lastContentFile = System.IO.File.ReadAllText("mssql-connection.cfg");
+            configuration.ApplyParameters(
+                parameters[0], 
+                parameters[1]
+            );
+
+            
+            try {
+                /* Проверка корректности введенных данных */
+                Context context = new Context();
+            }
+            catch(Exception) {
+                System.IO.File.WriteAllText("mssql-connection.cfg", lastContentFile);
+                bResult = false;
+            }
+
             return new BooleanResponse(bResult);
         }
 	}

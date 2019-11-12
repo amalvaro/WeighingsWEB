@@ -113,6 +113,10 @@ code {
 .margin-left-5px {
   margin-left: 5px;
 }
+.margin-left-15px {
+  margin-left: 15px;
+}
+
 
 .margin-top-10px {
   margin-top: 10px;
@@ -370,4 +374,25 @@ label {
 .ul-max-height {
   max-height: 300px;
   overflow-y: scroll;
+}
+.environment-border {
+  box-shadow: 0 0 3px rgba(0,0,0,0.2);
+  border-radius: 15px;
+  padding: 25px;
+}
+.inline-block {
+  display: inline-block;
+}
+.color-red {
+  color: red;
+}
+.margin-bottom-50px {
+  margin-bottom: 50px;
+}
+
+.middle-white-text {
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  color: white;
 }

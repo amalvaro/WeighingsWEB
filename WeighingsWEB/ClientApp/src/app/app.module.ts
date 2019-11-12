@@ -16,6 +16,7 @@ import { ControlDataComponent } from './control/control.component';
 
 import { ModalPictureComponent } from "./modal-dialog/modal.component";
 import { ExpandInfoComponent } from "./modal-dialog/expand-info.component";
+import { ModalContent } from "./modal-dialog/modal-content.component";
 import { SliderComponent } from "./weighing-picture-slider/slider.component";
 import { MSSQLConnection } from "./mssql-connection/connection.component";
 // import { NgbModule } from 'bootstrap/js/src'
@@ -36,7 +37,8 @@ import { MSSQLConnection } from "./mssql-connection/connection.component";
     ExpandInfoComponent,
     SliderComponent,
     MSSQLConnection,
-    ControlDataComponent
+    ControlDataComponent,
+    ModalContent
   ],
     imports: [
     //BsDropdownModule.forRoot(),

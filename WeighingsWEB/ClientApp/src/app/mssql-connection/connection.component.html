@@ -1,10 +1,50 @@
-<form class="margin-top-50px margin-left-50px margin-right-50px">
+
+<form class="needs-validation margin-top-50px margin-bottom-50px margin-left-50px margin-right-50px environment-border font-12px">
+    <div class="form-row">
+      <div class="col-md-6 mb-2">
+        <label for="validationTooltip01">Сервер базы данных</label>
+        <input type="text" class="form-control" id="DatabaseServerInput">
+        <small class="form-text text-muted" id="DatabaseServerInputNotify">Введите путь к серверу базы данных</small>
+      </div>
+      <div class="col-md-6 mb-2">
+        <label for="validationTooltip02">Имя базы данных</label>
+        <input type="text" class="form-control" id="DatabaseNameInput">
+        <small class="form-text text-muted" id="DatabaseNameInputNotify">Введите имя базы данных</small>
+      </div>
+    </div>
+
+    <div class="form-row">
+        <div class="custom-control custom-switch col-md-10 mb-3" style="margin-left: 35px">
+            <input type="checkbox" (click)="CheckLoginAndPasswordInputs()" class="custom-control-input" id="WindowsAuthenticationSwitch" [(ngModel)]="bIsWindowsAuthentication" [ngModelOptions]="{standalone: true}">
+            <label class="custom-control-label" for="WindowsAuthenticationSwitch">WindowsAuthentication</label>
+        </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-6 mb-3">
+        <label for="validationTooltip03">Пользователь базы данных</label>
+        <input type="text" class="form-control" id="DatabaseUserNameInput" disabled>
+        <small class="form-text text-muted" id="DatabaseUserNameNotify" >Введите имя пользователя базы данных</small>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="validationTooltip04">Пароль</label>
+        <input type="text" class="form-control" id="DatabaseUserPasswordInput" disabled>
+        <small class="form-text text-muted" id="DatabaseUserPasswordNotify">Введите имя пользователя базы данных</small>
+      </div>
+    </div>
+    <button class="btn btn-primary" (click)="SendSQLConnectionString()">Подключиться</button>
+    <small class="form-text inline-block margin-left-15px color-red" id="ConnectionNotify"></small>
+    <img *ngIf="responseLoading" src="./assets/images/load.gif" height="25" class="margin-left-15px" />
+  </form>
+
+
+<!--<form class="margin-top-50px margin-left-50px margin-right-50px">
     <div class="form-group">
-        <label for="connectionString">Строка подключения</label>
+        <label for="connectionString">Сервер</label>
         <input type="text" [(ngModel)]="connectionString" [ngModelOptions]="{standalone: true}" id="connectionString" class="form-control ">
         <small class="form-text text-muted" id="connectionStringNotify">Введите строку подключения к MSSQL-серверу</small>
     </div>
     <button 
         class="btn btn-primary" 
         (click)="SendSQLConnectionString()">Подключиться </button> <img *ngIf="responseLoading" src="./assets/images/load.gif" height="50" />
-</form>
+</form>-->
