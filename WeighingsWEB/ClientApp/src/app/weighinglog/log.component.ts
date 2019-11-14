@@ -146,7 +146,7 @@ export class WeighingLogComponent {
         page = page == null ? 1 : page;
 
         this.data = null;
-        this.http.get<WeighingLogResponse>(this.baseUrl + 'weighinglog/?page=' + page).subscribe(result => {
+        this.http.get<WeighingLogResponse>(this.baseUrl + 'weighinglog/?page=' + page, { withCredentials: true }).subscribe(result => {
 
 
             this.data = result;

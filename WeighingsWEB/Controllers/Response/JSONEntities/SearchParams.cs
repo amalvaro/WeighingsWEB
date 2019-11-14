@@ -12,11 +12,11 @@ namespace WeighingsWEB.Controllers.Response
         /// <summary>
         /// 
         /// </summary>
-        public string from { get; set; }    
+        public DateTime from { get; set; }    
         /// <summary>
         /// 
         /// </summary>
-        public string to { get; set; }
+        public DateTime to { get; set; }
     }
 
     public class TypeAndStatus
@@ -25,11 +25,11 @@ namespace WeighingsWEB.Controllers.Response
         /// <summary>
         /// 
         /// </summary>
-        public string firstSelection { get; set; }    
+        public byte? firstSelection { get; set; }    
         /// <summary>
         /// 
         /// </summary>
-        public string secondSelection { get; set; }
+        public byte? secondSelection { get; set; }
     }
 
     public class CarNumber
@@ -42,7 +42,7 @@ namespace WeighingsWEB.Controllers.Response
         /// <summary>
         /// 
         /// </summary>
-        public string fullContain { get; set; }
+        public bool fullContain { get; set; }
     }
 
     public class Directory

@@ -1,3 +1,115 @@
+<modal-content dialog-name="dataFilterDialog" title="Фильтр данных">
+    <ul id="dropdown-basic" class="remove-list-marker"
+      role="menu" aria-labelledby="button-basic">
+
+    <li class="margin-10px">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="font-12px">Выберите диапазон дат с <input [(ngModel)]="filterData.date.from" class="form-control" type="datetime-local" /></div>
+          </div>
+          <div class="col-md-6">
+            <div class="font-12px">По <input [(ngModel)]="filterData.date.to" class="form-control" type="datetime-local" /></div>
+          </div>
+        </div>
+      </div>
+
+    </li>
+
+    <li class="margin-10px">
+
+      <div class="container">
+        <div class="font-12px">Тип и статус</div>
+        <div class="row">
+          <div class="col-md-6">
+              <select class="form-control" [(ngModel)]="filterData.typeAndStatus.firstSelection">
+                <option value="0">Порожнее</option>
+                <option value="1">Груженое</option>
+                <option value="2">Тарирование</option>
+              </select>
+          </div>
+          <div class="col-md-6">
+            <select class="form-control" [(ngModel)]="filterData.typeAndStatus.secondSelection">
+              <option value="0">Неудаленное</option>
+              <option value="1">Удаленное</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+    </li>
+
+
+    <li class="margin-10px">
+      <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="font-12px">Введите номер ТС <input [(ngModel)]="filterData.carNumber.carNumber" class="form-control" type="text" /></div> 
+              <div class="font-12px margin-top-5px margin-left-5px"><input [(ngModel)]="filterData.carNumber.fullContain" [ngModelOptions]="{standalone: true}" type="checkbox" /> Полное совпадение  </div>
+            </div>
+            
+          </div>
+      </div>
+    </li>
+
+    <li class="margin-10px">
+        <div class="container">
+          <div class="font-12px">Справочники</div>
+          <div class="row">
+            <div class="col-md-6">
+            <select class="form-control" [(ngModel)]="filterData.directory.firstSelection">
+              <option>1</option>
+              <option>1</option>
+              <option>1</option>
+            </select>
+            </div>
+            <div class="col-md-6">
+              <select class="form-control" [(ngModel)]="filterData.directory.secondSelection">
+                <option>1</option>
+                <option>1</option>
+                <option>1</option>
+              </select>
+            </div>
+          </div>
+      </div>
+    </li>
+
+    <li class="margin-10px">
+      
+      <div class="container">
+        <div class="font-12px">Значение</div>
+        <div class="row">
+            <div class="col-md-6">
+                <input [(ngModel)]="filterData.values.value" class="form-control" type="text" />
+            </div>
+            <div class="col-md-6">
+              <select class="form-control" [(ngModel)]="filterData.values.selection">
+                <option>1</option>
+                <option>1</option>
+                <option>1</option>
+              </select>
+            </div>
+        </div>
+        <div class="font-12px margin-top-5px margin-left-5px"><input [(ngModel)]="filterData.values.fullContain" [ngModelOptions]="{standalone: true}" type="checkbox" /> Полное совпадение  </div>
+      </div>
+      
+    </li>
+    <div class="container margin-top-25px">
+      <div class="row">
+        <div class="col-md-4">
+          <li class="text-center"><button class="btn btn-success w-100 pad-15px" (click)="AcceptSearchParameters()"> <div class="font-12px">  Применить </div> </button></li>
+        </div>
+        <div class="col-md-4">
+          <li class="text-center"><button class="btn btn-warning w-100 pad-15px" (click)="ClearSearchParameters()"> <div class="font-12px">  Очистить </div> </button></li>
+        </div>
+        <div class="col-md-4">
+          <li class="text-center"><button class="btn btn-danger w-100 pad-15px" data-dismiss="modal"> <div class="font-12px">  Закрыть </div> </button></li>
+        </div>
+      </div>
+    </div>
+  </ul>
+</modal-content>
 
 <div class="container">
   <div class="row">
@@ -9,73 +121,14 @@
       </div>
 
       <div class="col-sm-6 text-right">
-        <!-- dropdownToggle -->
+        <!-- dropdownToggle (click)="openDropdown('btn-showFilter')"-->
         <div class="btn-group margin-top-25px" id="btn-showFilter">
           <button id="button-basic" type="button" class="btn btn-secondary dropdown-toggle"
-                  aria-controls="dropdown-basic"
-                  (click)="openDropdown('btn-showFilter')" style="margin-bottom: 10px;">
+                  aria-controls="dropdown-basic" data-toggle="modal" data-target="#dataFilterDialog"
+                   style="margin-bottom: 10px;">
             Фильтр данных <span class="caret"></span>
           </button>
-          <ul id="dropdown-basic" class="dropdown-menu ul-max-height"
-              role="menu" aria-labelledby="button-basic">
-
-            <li class="margin-10px">
-              <div class="font-12px">Выберите диапазон дат с <input [(ngModel)]="filterData.date.from" class="form-control" type="datetime-local" /></div>
-              <div class="font-12px">По <input [(ngModel)]="filterData.date.to" class="form-control" type="datetime-local" /></div>
-
-              <!--<button (click)="test()">test</button>-->
-
-            </li>
-
-            <li class="margin-10px">
-              <div class="font-12px">Тип и статус</div>
-              <select class="form-control" [(ngModel)]="filterData.typeAndStatus.firstSelection">
-                <option>1</option>
-                <option>1</option>
-                <option>1</option>
-              </select>
-              <select class="form-control margin-top-5px" [(ngModel)]="filterData.typeAndStatus.secondSelection">
-                <option>1</option>
-                <option>1</option>
-                <option>1</option>
-              </select>
-            </li>
-
-
-            <li class="margin-10px">
-              <div class="font-12px">Введите номер ТС <input [(ngModel)]="filterData.carNumber.carNumber" class="form-control" type="text" /></div>
-              <div class="font-12px margin-top-5px"><input [(ngModel)]="filterData.carNumber.fullContain" [ngModelOptions]="{standalone: true}" type="checkbox" /> Полное совпадение  </div>
-            </li>
-
-            <li class="margin-10px">
-              <div class="font-12px">Справочники</div>
-              <select class="form-control" [(ngModel)]="filterData.directory.firstSelection">
-                <option>1</option>
-                <option>1</option>
-                <option>1</option>
-              </select>
-              <select class="form-control margin-top-5px" [(ngModel)]="filterData.directory.secondSelection">
-                <option>1</option>
-                <option>1</option>
-                <option>1</option>
-              </select>
-            </li>
-
-            <li class="margin-10px">
-              <div class="font-12px">Значение<input [(ngModel)]="filterData.values.value" class="form-control" type="text" /></div>
-              <select class="form-control margin-top-5px" [(ngModel)]="filterData.values.selection">
-                <option>1</option>
-                <option>1</option>
-                <option>1</option>
-              </select>
-              <div class="font-12px margin-top-5px"><input [(ngModel)]="filterData.values.fullContain" [ngModelOptions]="{standalone: true}" type="checkbox" /> Полное совпадение  </div>
-            </li>
-
-            <li class="text-center"><button class="btn btn-success w-100 pad-15px" (click)="AcceptSearchParameters()"> <div class="font-12px">  Применить </div> </button></li>
-            <li class="text-center"><button class="btn btn-warning w-100 pad-15px" (click)="ClearSearchParameters()"> <div class="font-12px">  Очистить </div> </button></li>
-            <li class="text-center"><button class="btn btn-danger w-100 pad-15px" (click)="openDropdown('btn-showFilter')"> <div class="font-12px">  Закрыть </div> </button></li>
-
-          </ul>
+          
         </div>
 
         <div class="btn-group margin-top-25px margin-left-5px" id="btn-showDataFilter">
@@ -144,10 +197,10 @@
           <!-- <weighing-slider [weighing-picture-array]="log.weighingImages" picture-size="150" slider-name="logInfoSlider"></weighing-slider>-->
           <button class="btn btn-purple margin-top-10px" data-target="#expanded-data" data-toggle="modal" (click)="SetCurrentDialogData(currentElement)">Подробнее</button>
         </td>
-        <td *ngIf="filterState[0]">  {{ log.timeStamp | date:'MM/dd/yyyy h:mm:ss'}}</td>
+        <td *ngIf="filterState[0]">  {{ log.timeStamp | date:'dd/MM/yyyy h:mm:ss'}}</td>
         <td *ngIf="filterState[1]">  {{ log.weight }}</td>
         <td *ngIf="filterState[2]">  {{ log.type == 0 ? 'порожнее' : 'груженое' }} </td>
-        <td *ngIf="filterState[3]">  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.timeStamp | date:'MM/dd/yyyy h:mm:ss') }}</td>
+        <td *ngIf="filterState[3]">  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.timeStamp | date:'dd/MM/yyyy h:mm:ss') }}</td>
         <td *ngIf="filterState[4]">  {{ log.previousWeighing == null ? ('—') : (log.previousWeighing.weight) }} </td>
         <td *ngIf="filterState[5]">  {{ log.previousWeighing == null ? ('—') : (log.weight-log.previousWeighing.weight) }} </td>
         <td *ngIf="filterState[6]">  {{ log.vehiclePlate }}</td>

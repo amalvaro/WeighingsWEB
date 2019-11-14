@@ -38,7 +38,7 @@ namespace WeighingsWEB.Controllers
 		public object Get(int page = 1)
 		{
 
-			SearchParams searchParams;
+			SearchParams searchParams = null;
 			EntityRepository<WeighingLog> repository;
 			WeighingLogWorker weighingLogWorker;
 
@@ -47,14 +47,17 @@ namespace WeighingsWEB.Controllers
 
 			var searchParamsString = Cookie.GetCookieByName(Request, "searchParams");
 			if(searchParamsString != null) {
-				searchParams = JsonConvert.DeserializeObject<SearchParams>(searchParamsString);
+				searchParams = JsonConvert.DeserializeObject<SearchParams>(searchParamsString, new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        MissingMemberHandling = MissingMemberHandling.Ignore});
 			}
 
 			
 			repository 			= new EntityRepository<WeighingLog>(dbContext);
 			weighingLogWorker 	= new WeighingLogWorker(repository);
 			
-			var listOfItems = weighingLogWorker.GetLogList((page - 1) * 5 /* 5 элементов на странице */, 5 /* количество элементов на странице */);
+			var listOfItems = weighingLogWorker.GetLogList((page - 1) * 5 /* 5 элементов на странице */, 5 /* количество элементов на странице */, searchParams);
 			var count = repository.Count();
 
 			foreach (var log in listOfItems)
