@@ -8,25 +8,14 @@ import { Cookie } from '../util/cookie';
 
 import { Router } from '@angular/router';
 
+/* Contains filter parameters. */
+var filterContainer = null;
 
-/*import { style, state, animate, transition, trigger } from '@angular/animations'; */
 
 @Component({
     selector: 'log-component',
     templateUrl: './log.component.html',
-    /*animations: [
-  trigger('fadeInOut', [
-    transition(':enter', [   // :enter is alias to 'void => *'
-      style({opacity:0}),
-      animate(500, style({opacity:1})) 
-    ]),
-    transition(':leave', [   // :leave is alias to '* => void'
-      animate(500, style({opacity:0})) 
-    ])
-  ])
-] */
 })
-
 export class WeighingLogComponent {
     public data: WeighingLogResponse;
     public currentPageCounter: number = 1;
@@ -47,6 +36,7 @@ export class WeighingLogComponent {
 
 
     constructor(private route: ActivatedRoute, private http: HttpClient, @Inject('BASE_URL') private  baseUrl: string) {
+
         this.UpdateContent(
             route.snapshot.paramMap.get("page")
         );
@@ -70,9 +60,9 @@ export class WeighingLogComponent {
 
         
 
-        var element: Element = document.getElementById(id);
-        var btn: Element  = element.getElementsByClassName("btn")[0];
-        var menu: Element = element.getElementsByClassName("dropdown-menu")[0];
+        var element: Element    = document.getElementById(id);
+        var btn: Element        = element.getElementsByClassName("btn")[0];
+        var menu: Element       = element.getElementsByClassName("dropdown-menu")[0];
 
 
         $(document.body).mouseup(function (e) {
@@ -98,32 +88,87 @@ export class WeighingLogComponent {
         }
     }
 
+    
 
     public filterData: any = {
-        date:           { from: null, to: null },
+        date:           { enable: false, from: null, to: null },
         typeAndStatus:  { firstSelection: null, secondSelection: null },
         carNumber:      { carNumber: null, fullContain: false },
         directory:      { firstSelection: null, secondSelection: null },
         values:         { value: null, selection: null, fullContain: null }
     };
 
+    ApplyDateMask(Id:number) {
+
+        var firstDate   = new Date();
+        var secondDate  = new Date();
+
+        let days = {0 : 1, 1 : 3, 2 : 7, 3 : 30};
+        firstDate.setDate(firstDate.getDate() - days[Id]);
+
+        firstDate.setHours(0, 0, 0);
+        secondDate.setHours(23, 59, 0);
+
+        let firstString     = 
+             `${firstDate.getFullYear()}-` + 
+             `${(firstDate.getMonth() + 1) < 10 ? "0" + firstDate.getMonth() + 1 : firstDate.getMonth() + 1 }-` +
+             `${firstDate.getDate() < 10 ? "0" + firstDate.getDate() : firstDate.getDate()}T` + 
+             `${firstDate.getHours() < 10 ? "0" + firstDate.getHours() : firstDate.getHours()}:` + 
+             `${firstDate.getMinutes() < 10 ? "0" + firstDate.getMinutes() : firstDate.getMinutes()}`;
+
+        let secondString     = 
+            `${secondDate.getFullYear()}-` + 
+             `${(secondDate.getMonth() + 1) < 10 ? "0" + secondDate.getMonth() + 1 : secondDate.getMonth() + 1 }-` +
+             `${secondDate.getDate() < 10 ? "0" + secondDate.getDate() : secondDate.getDate()}T` + 
+             `${secondDate.getHours() < 10 ? "0" + secondDate.getHours() : secondDate.getHours()}:` +
+             `${secondDate.getMinutes() < 10 ? "0" + secondDate.getMinutes() : secondDate.getMinutes()}`;
+
+        this.filterData.date.from = firstString;
+        this.filterData.date.to = secondString;
+    }
+
+    CheckDateInput() {
+        // alert("called");
+        if(this.filterData.date.enable != false) {
+            $("#date_from").attr('disabled','disabled');
+            $("#date_to").attr('disabled','disabled');
+        } else {
+            $("#date_from").removeAttr('disabled');
+            $("#date_to").removeAttr('disabled');
+        }
+    }
 
     AcceptSearchParameters() {
-        Cookie.setObject("searchParams", this.filterData);
+
+
+        if(this.filterData.date.enable == true) {
+            if($("#date_from").val() == "" || $("#date_to").val() == "") {
+
+                alert("Укажите диапазон дат.");
+
+                return;
+            }
+        }
+
+        filterContainer = encodeURIComponent(JSON.stringify(this.filterData));
         this.UpdateContent();
+
     }
 
     ClearSearchParameters() {
         this.filterData = {
-            date: { from: null, to: null },
+            date: { enable: false, from: null, to: null },
             typeAndStatus: { firstSelection: null, secondSelection: null },
             carNumber: { carNumber: null, fullContain: false },
             directory: { firstSelection: null, secondSelection: null },
             values: { value: null, selection: null, fullContain: null }
         };
-        Cookie.deleteCookie("searchParams");
 
+        filterContainer = null;
         this.UpdateContent();
+
+        // Cookie.deleteCookie("searchParams");
+        // document.location.href=document.location.href;
 
     }
 
@@ -141,15 +186,24 @@ export class WeighingLogComponent {
         return !this.currentPageCounter ? 1 : this.currentPageCounter;
     }
 
+
+
     UpdateContent(page:any = 1): void {
 
         page = page == null ? 1 : page;
 
+        if(page < 1 || page > this.maxPages)
+            page = 1;
+
         this.data = null;
-        this.http.get<WeighingLogResponse>(this.baseUrl + 'weighinglog/?page=' + page, { withCredentials: true }).subscribe(result => {
+        this.http.get<WeighingLogResponse>(this.baseUrl + 'weighinglog/?page=' + page + "&stringSearchParams=" + filterContainer, { withCredentials: true }).subscribe(result => {
 
 
             this.data = result;
+
+            /* if(result.response == null) {
+                alert("data is null");
+            } */
 
             this.slideState = [];
             this.slideState.length = this.data.response.length;
@@ -157,13 +211,14 @@ export class WeighingLogComponent {
 
             this.maxPages = Math.ceil(this.data.count / this.MAX_ROWS_COUNT);
 
-            if (page > this.maxPages) {
+            /* if (page > this.maxPages) {
                 this.UpdateContent(this.maxPages);
-            }
+            } */
 
-            if (page < 1) {
+            // 18.11.2019
+            /* if (page < 1) {
                 this.UpdateContent(1);
-            }
+            } */
 
             this.UpdateNextPageNumber(page);
             this.currentPageCounter = page;

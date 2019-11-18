@@ -17,6 +17,24 @@ namespace WeighingsWEB.Database.EntityWorker.Entities
 			this.repository = entityRepository;
 		}
 
+		public int Count(SearchParams searchParams = null) {
+
+			if(searchParams == null) 
+			{
+				return repository
+					.GetQueryable()
+					.Count();
+			}
+			else {
+				var log = repository
+					.GetQueryable();
+
+				log = ApplySearchParams(log, searchParams);
+				return log.Count();
+			}
+
+		}
+
 		public IEnumerable<WeighingLog> GetShortLogList(int from, int count)
 		{
 			return repository
@@ -82,16 +100,23 @@ namespace WeighingsWEB.Database.EntityWorker.Entities
 
 		private IQueryable<WeighingLog> ApplySearchParams(IQueryable<WeighingLog> weighingLog, SearchParams searchParams)
 		{
+
+			// return weighingLog;
+
 			if(searchParams != null)
 			{
+				if(searchParams.date.enable) {
 
-				if(searchParams.date.from != null && DateTime.MinValue != searchParams.date.from) {
-					weighingLog = weighingLog.Where(e => e.TimeStamp >= searchParams.date.from);
-				}
+					if(searchParams.date.from != null && DateTime.MinValue != searchParams.date.from) {
+						weighingLog = weighingLog.Where(e => e.TimeStamp >= searchParams.date.from);
+						Console.WriteLine("1. " + searchParams.date.from.ToString());
+					}
 
-				if(searchParams.date.to != null && DateTime.MinValue != searchParams.date.to) {
-					weighingLog = weighingLog.Where(e => e.TimeStamp <= searchParams.date.to);
-				}
+					if(searchParams.date.to != null && DateTime.MinValue != searchParams.date.to) {
+						weighingLog = weighingLog.Where(e => e.TimeStamp <= searchParams.date.to);
+						Console.WriteLine("2. " + searchParams.date.to.ToString());
+					}
+				} 
 
 				if(searchParams.carNumber.carNumber != null)
 				{

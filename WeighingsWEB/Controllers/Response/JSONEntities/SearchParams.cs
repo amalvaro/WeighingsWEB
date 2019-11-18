@@ -9,9 +9,11 @@ namespace WeighingsWEB.Controllers.Response
 {
     public class Date
     {
+        public bool enable {get;set;}
         /// <summary>
         /// 
         /// </summary>
+        
         public DateTime from { get; set; }    
         /// <summary>
         /// 

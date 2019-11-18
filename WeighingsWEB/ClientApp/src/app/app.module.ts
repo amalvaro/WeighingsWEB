@@ -49,8 +49,8 @@ import { MSSQLConnection } from "./mssql-connection/connection.component";
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
         { path: 'fetch-data', component: FetchDataComponent },
-        { path: 'weighinglog-data', component: WeighingLogComponent },
-        { path: 'weighinglog-data/:page', component: WeighingLogComponent }, /* export-data */
+        { path: 'weighinglog-data', redirectTo: 'weighinglog-data/1' },
+        { path: 'weighinglog-data/:page', component: WeighingLogComponent },
         { path: 'export-data', component: ExportDataComponent },
         { path: 'control-data', component: ControlDataComponent }
     ])

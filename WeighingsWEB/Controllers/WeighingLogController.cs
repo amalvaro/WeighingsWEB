@@ -35,7 +35,7 @@ namespace WeighingsWEB.Controllers
 		/* 23.10.2019. Контроллер для отображения журнала взвешиваний. */
 
 		[HttpGet]
-		public object Get(int page = 1)
+		public object Get(int page = 1, string stringSearchParams = null)
 		{
 
 			SearchParams searchParams = null;
@@ -45,12 +45,12 @@ namespace WeighingsWEB.Controllers
 			if(page < 1)
 				page = 1;
 
-			var searchParamsString = Cookie.GetCookieByName(Request, "searchParams");
+			var searchParamsString = stringSearchParams; //Cookie.GetCookieByName(Request, "searchParams");
 			if(searchParamsString != null) {
-				searchParams = JsonConvert.DeserializeObject<SearchParams>(searchParamsString, new JsonSerializerSettings
-                    {
+				searchParams = JsonConvert.DeserializeObject<SearchParams>(searchParamsString, new JsonSerializerSettings {
                         NullValueHandling = NullValueHandling.Ignore,
-                        MissingMemberHandling = MissingMemberHandling.Ignore});
+                        MissingMemberHandling = MissingMemberHandling.Ignore
+					});
 			}
 
 			
@@ -58,7 +58,7 @@ namespace WeighingsWEB.Controllers
 			weighingLogWorker 	= new WeighingLogWorker(repository);
 			
 			var listOfItems = weighingLogWorker.GetLogList((page - 1) * 5 /* 5 элементов на странице */, 5 /* количество элементов на странице */, searchParams);
-			var count = repository.Count();
+			var count = weighingLogWorker.Count(searchParams);
 
 			foreach (var log in listOfItems)
 			{

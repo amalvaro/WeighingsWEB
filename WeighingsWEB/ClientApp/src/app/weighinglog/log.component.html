@@ -5,14 +5,43 @@
     <li class="margin-10px">
 
       <div class="container">
+        <input [(ngModel)]="filterData.date.enable" [ngModelOptions]="{standalone: true}" type="checkbox" /> Включить фильтр по дате
+        
+
+
         <div class="row">
           <div class="col-md-6">
-            <div class="font-12px">Выберите диапазон дат с <input [(ngModel)]="filterData.date.from" class="form-control" type="datetime-local" /></div>
+            <div class="font-12px">Выберите диапазон дат с <input [attr.disabled]="!filterData.date.enable ? '' : null"  id="date_from" [(ngModel)]="filterData.date.from" class="form-control" type="datetime-local" /></div>
           </div>
           <div class="col-md-6">
-            <div class="font-12px">По <input [(ngModel)]="filterData.date.to" class="form-control" type="datetime-local" /></div>
+            <div class="font-12px">По <input [attr.disabled]="!filterData.date.enable ? '' : null" [(ngModel)]="filterData.date.to" id="date_to" class="form-control" type="datetime-local" /></div>
           </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+  
+                <div class="btn-group margin-top-25px" style="width:100%" id="btn-showMask">
+                  <button id="button-basic" type="button" class="btn btn-secondary dropdown-toggle font-12px"
+                          aria-controls="dropdown-basic"
+                          (click)="openDropdown('btn-showMask')" style="margin-bottom: 10px;">
+                    Шаблоны <span class="caret"></span>
+                  </button>
+                  <ul id="dropdown-basic" class="dropdown-menu ul-max-height"
+                      role="menu" aria-labelledby="button-basic">
+  
+                    <li class="btn btn-outline-primary margin-10px font-12px cursor-pointer" (click)="ApplyDateMask(0)">Со вчерашнего дня</li>
+                    <li class="btn btn-outline-primary margin-10px font-12px cursor-pointer" (click)="ApplyDateMask(1)">Последние 3 дня</li>
+                    <li class="btn btn-outline-primary margin-10px font-12px cursor-pointer" (click)="ApplyDateMask(2)">Последние 7 дней</li>
+                    <li class="btn btn-outline-primary margin-10px font-12px cursor-pointer" (click)="ApplyDateMask(3)">Последние 30 дней</li>
+                    
+                  </ul>
+                </div>
+  
+            </div>
+  
+          </div>
+
       </div>
 
     </li>
@@ -216,7 +245,7 @@
   <div class="navigation">
 
     <!-- Если на данный момент в списке страниц нет 1-ой страницы - показываем кнопку назад  -->
-    <a *ngIf="isShowPrevButton" [routerLink]="['/weighinglog-data', currentPageArrayNumbers[0] - 1]" (click)="UpdatePrevPageNumber(currentPageArrayNumbers[0] - 1)">Назад</a>
+    <a *ngIf="isShowPrevButton && maxPages != 0" [routerLink]="['/weighinglog-data', currentPageArrayNumbers[0] - 1]" (click)="UpdatePrevPageNumber(currentPageArrayNumbers[0] - 1)">Назад</a>
 
     <!-- Номера страниц -->
     <a [routerLink]="['/weighinglog-data', pageNumber]"
@@ -225,7 +254,7 @@
 
     <!--Кнопка дальше -->
 
-    <a *ngIf="!isThisFinishPage" [routerLink]="['/weighinglog-data', lastPageNumber]"
+    <a *ngIf="!isThisFinishPage && maxPages != 0" [routerLink]="['/weighinglog-data', lastPageNumber]"
        (click)="UpdateNextPageNumber(lastPageNumber)">Дальше</a>
 
 
