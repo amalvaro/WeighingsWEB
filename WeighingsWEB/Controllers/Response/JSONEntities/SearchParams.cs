@@ -53,11 +53,14 @@ namespace WeighingsWEB.Controllers.Response
         /// <summary>
         /// 
         /// </summary>
-        public string firstSelection { get; set; }    
+        // public int? firstSelection { get; set; }    
         /// <summary>
         /// 
         /// </summary>
-        public string secondSelection { get; set; }
+        // public int? secondSelection { get; set; }
+
+        public List<int?> selection;
+
     }
 
     public class Values
@@ -70,11 +73,11 @@ namespace WeighingsWEB.Controllers.Response
         /// <summary>
         /// 
         /// </summary>
-        public string selection { get; set; }    
+        public int? selection { get; set; }    
         /// <summary>
         /// 
         /// </summary>
-        public string fullContain { get; set; }
+        public bool fullContain { get; set; }
     }
 
     public class SearchParams

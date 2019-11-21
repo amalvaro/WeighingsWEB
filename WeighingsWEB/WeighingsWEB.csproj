@@ -20,6 +20,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
   </ItemGroup>
 
@@ -48,6 +50,7 @@
     <None Remove="ClientApp\src\app\modal-dialog\expand-info.component.ts" />
     <None Remove="ClientApp\src\app\util\cookie.ts" />
     <None Remove="ClientApp\src\data\structure\VehicleDataRecords.ts" />
+    <None Remove="ClientApp\src\data\structure\VirtualDatabases.ts" />
     <None Remove="ClientApp\src\data\structure\WeghingImages.ts" />
     <None Remove="ClientApp\src\data\structure\WeighingLog.ts" />
   </ItemGroup>
@@ -60,6 +63,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\modal-dialog\expand-info.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\util\cookie.ts" />
     <TypeScriptCompile Include="ClientApp\src\data\structure\VehicleDataRecords.ts" />
+    <TypeScriptCompile Include="ClientApp\src\data\structure\VirtualDatabases.ts" />
     <TypeScriptCompile Include="ClientApp\src\data\structure\WeghingImages.ts" />
     <TypeScriptCompile Include="ClientApp\src\data\structure\WeighingLog.ts" />
   </ItemGroup>

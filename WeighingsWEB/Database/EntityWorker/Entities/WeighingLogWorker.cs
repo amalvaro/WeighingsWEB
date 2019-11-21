@@ -85,7 +85,8 @@ namespace WeighingsWEB.Database.EntityWorker.Entities
 					{
 						TimeStamp = t.PreviousWeighing.TimeStamp,
 						Weight = t.PreviousWeighing.Weight
-					}
+					},
+					WeighingReferences = t.WeighingReferences
 				});
 
 			log = ApplySearchParams(log, searchParams);
@@ -100,24 +101,53 @@ namespace WeighingsWEB.Database.EntityWorker.Entities
 
 		private IQueryable<WeighingLog> ApplySearchParams(IQueryable<WeighingLog> weighingLog, SearchParams searchParams)
 		{
-
-			// return weighingLog;
-
 			if(searchParams != null)
 			{
-				if(searchParams.date.enable) {
+				if(searchParams.values.selection != null) {
+					switch (searchParams.values.selection)
+					{
+						case 0: {
 
+							if(searchParams.values.fullContain == true) {
+								weighingLog = weighingLog.Where(e => e.Operator == searchParams.values.value);
+							} else {
+								weighingLog = weighingLog.Where(e => e.Operator.Contains(searchParams.values.value));
+							}
+
+							break;
+						}
+						case 1: {
+							
+							if(searchParams.values.fullContain == true) {
+								weighingLog = weighingLog.Where(e => e.TrailerPlate == searchParams.values.value);
+							} else {
+								weighingLog = weighingLog.Where(e => e.TrailerPlate.Contains(searchParams.values.value));
+							}
+
+							break;
+						}
+					}
+				}
+				if(searchParams.directory.selection != null) {
+					List<int?> directoryState = searchParams.directory.selection;
+					if(searchParams.directory.selection.Count != 0) {						
+						for (int i = 0; i < directoryState.Count; i++)
+						{
+							if(directoryState[i] != null) {
+								var state = directoryState[i];
+								weighingLog = weighingLog.Where(e=>e.WeighingReferences.Any(f=>f.RecordId==state));
+							}
+						}
+					}
+				}
+				if(searchParams.date.enable) {
 					if(searchParams.date.from != null && DateTime.MinValue != searchParams.date.from) {
 						weighingLog = weighingLog.Where(e => e.TimeStamp >= searchParams.date.from);
-						Console.WriteLine("1. " + searchParams.date.from.ToString());
 					}
-
 					if(searchParams.date.to != null && DateTime.MinValue != searchParams.date.to) {
 						weighingLog = weighingLog.Where(e => e.TimeStamp <= searchParams.date.to);
-						Console.WriteLine("2. " + searchParams.date.to.ToString());
 					}
 				} 
-
 				if(searchParams.carNumber.carNumber != null)
 				{
 					var carNumber = searchParams.carNumber.carNumber.Trim();
@@ -129,16 +159,13 @@ namespace WeighingsWEB.Database.EntityWorker.Entities
 						}
 					}
 				}
-
 				if(searchParams.typeAndStatus.firstSelection != null) {
 					weighingLog = weighingLog.Where(e => e.Type == searchParams.typeAndStatus.firstSelection);
 				}
-
 				if(searchParams.typeAndStatus.secondSelection != null) {
 					bool bIsDeletedRow = (searchParams.typeAndStatus.secondSelection == 1);
 					weighingLog = weighingLog.Where(e => e.IsDeleted == bIsDeletedRow);
 				}
-
 			}
 
 			return weighingLog;

@@ -56,6 +56,9 @@ namespace Entities.Entities
 		[ForeignKey("WeighingId")]
 		public List<WeighingImages> WeighingImages { get; set; }
 
+        [ForeignKey("WeighingId")] 
+		public List<WeighingReferences> WeighingReferences { get; set; }
+
 	}
 
 

@@ -44,6 +44,7 @@ namespace WeighingsWEB.Database.EntityWorker
 			return dbSet.AsNoTracking().Where(condition).ToList();
 		}
 
+
 		public int Count()
 		{
 			return dbSet.Count();

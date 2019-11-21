@@ -33,6 +33,7 @@ namespace WeighingsWEB
 				});
 
 			services.AddTransient<DbContext, Context> ();
+			services.AddSingleton<Manager>();
 
 			services.AddControllersWithViews();
 			services.AddSpaStaticFiles(configuration =>

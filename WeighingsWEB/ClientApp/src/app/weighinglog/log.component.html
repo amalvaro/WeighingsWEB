@@ -29,21 +29,15 @@
                   </button>
                   <ul id="dropdown-basic" class="dropdown-menu ul-max-height"
                       role="menu" aria-labelledby="button-basic">
-  
                     <li class="btn btn-outline-primary margin-10px font-12px cursor-pointer" (click)="ApplyDateMask(0)">Со вчерашнего дня</li>
                     <li class="btn btn-outline-primary margin-10px font-12px cursor-pointer" (click)="ApplyDateMask(1)">Последние 3 дня</li>
                     <li class="btn btn-outline-primary margin-10px font-12px cursor-pointer" (click)="ApplyDateMask(2)">Последние 7 дней</li>
                     <li class="btn btn-outline-primary margin-10px font-12px cursor-pointer" (click)="ApplyDateMask(3)">Последние 30 дней</li>
-                    
                   </ul>
                 </div>
-  
             </div>
-  
           </div>
-
       </div>
-
     </li>
 
     <li class="margin-10px">
@@ -68,8 +62,6 @@
         </div>
       </div>
     </li>
-
-
     <li class="margin-10px">
       <div class="container">
           <div class="row">
@@ -81,31 +73,30 @@
           </div>
       </div>
     </li>
-
-    <li class="margin-10px">
+    <li class="margin-10px" *ngIf="dividedTables">
         <div class="container">
           <div class="font-12px">Справочники</div>
-          <div class="row">
-            <div class="col-md-6">
-            <select class="form-control" [(ngModel)]="filterData.directory.firstSelection">
-              <option>1</option>
-              <option>1</option>
-              <option>1</option>
-            </select>
+          <div class="row" *ngFor="let table of dividedTables; let currentElement = index" >
+            <div class="col-md-6" *ngIf="table.firstTable">
+              <select class="form-control" [(ngModel)]="filterData.directory.selection[currentElement]" [attr.placeholder]="table.firstTable.tableCaption.value"> 
+                <option disabled value="null">{{table.firstTable.tableCaption.value}}</option>
+                <option [attr.value]="f.recordId" *ngFor="let f of GetFieldsDataForTable(currentElement) "> 
+                  {{f.value}}  
+                </option>
+              </select>
             </div>
-            <div class="col-md-6">
-              <select class="form-control" [(ngModel)]="filterData.directory.secondSelection">
-                <option>1</option>
-                <option>1</option>
-                <option>1</option>
+            <div class="col-md-6" *ngIf="table.secondTable">
+              <select class="form-control" [(ngModel)]="filterData.directory.selection[currentElement + 1]" [attr.placeholder]="table.secondTable.tableCaption.value">
+                <option disabled value="null">{{table.secondTable.tableCaption.value}}</option>
+                <option [attr.value]="f.recordId" *ngFor="let f of GetFieldsDataForTable(currentElement + 1) "> 
+                    {{f.value}}  
+                  </option>
               </select>
             </div>
           </div>
       </div>
     </li>
-
     <li class="margin-10px">
-      
       <div class="container">
         <div class="font-12px">Значение</div>
         <div class="row">
@@ -114,15 +105,13 @@
             </div>
             <div class="col-md-6">
               <select class="form-control" [(ngModel)]="filterData.values.selection">
-                <option>1</option>
-                <option>1</option>
-                <option>1</option>
+                <option value="0">Оператор</option>
+                <option value="1">Номер прицепа</option>
               </select>
             </div>
         </div>
         <div class="font-12px margin-top-5px margin-left-5px"><input [(ngModel)]="filterData.values.fullContain" [ngModelOptions]="{standalone: true}" type="checkbox" /> Полное совпадение  </div>
       </div>
-      
     </li>
     <div class="container margin-top-25px">
       <div class="row">

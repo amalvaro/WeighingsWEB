@@ -1,0 +1,939 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Configuration>
+	<FormatVersion Value="14" />
+	<Name Value="ХМАО/Ритенвес" />
+	<Interface>
+		<WeighingCancelConfirmationMessage Value="Отменить процедуру взвешивания?" />
+		<WeighingContinueConfirmationMessage Value="Внимание! {0} Продолжить процедуру взвешивания?" />
+		<UseTrailers Value="false" />
+		<ShowVehicleOwner Value="true" />
+		<UseHandleEventsInDefaultModeButton Value="true" />
+		<UseSeparateVideoWindow Value="false" />
+		<UseEmbeddedVideo Value="true" />
+		<UseQuickLightSwitch Value="false" />
+		<WeightThresholdFieldIndex Value="0" />
+		<VehicleOwnersTableIndex Value="-1" />
+		<FirstAxleLoadWeighingFieldIndex Value="-1" />
+		<AxleLoadWeighingFieldsCount Value="0" />
+		<AxlesFormulaWeighingFieldIndex Value="-1" />
+		<SelectedAxleLoadRoadGroup Value="NoMore_10000" />
+		<ShowVehicleOwnerField Value="false" />
+		<ShowVehicleRfidField Value="false" />
+		<ShowTrailerPlateField Value="true" />
+		<LightOnAction>
+			<Actions />
+		</LightOnAction>
+		<LightOffAction>
+			<Actions />
+		</LightOffAction>
+		<SquarerLayouts>
+			<SquarerLayout>
+				<Name Value="Сетка 2x1" />
+				<Width Value="2" />
+				<Height Value="1" />
+				<Regions>
+					<Region>
+						<Row Value="0" />
+						<Column Value="0" />
+						<RowSpan Value="1" />
+						<ColumnSpan Value="1" />
+					</Region>
+					<Region>
+						<Row Value="0" />
+						<Column Value="1" />
+						<RowSpan Value="1" />
+						<ColumnSpan Value="1" />
+					</Region>
+				</Regions>
+			</SquarerLayout>
+		</SquarerLayouts>
+		<VehicleInterfacePartDescriptors>
+			<VehicleInterfacePartDescriptor>
+				<ClassName Value="VehicleStringFieldPart" />
+				<Arguments>
+					<Argument Type="String" Source="Constant" Value="manufacturer" />
+					<Argument Type="Boolean" Source="Constant" Value="True" />
+					<Argument Type="Boolean" Source="Constant" Value="True" />
+					<Argument Type="Boolean" Source="Constant" Value="True" />
+					<Argument Type="String" Source="Constant" Value="True" />
+					<Argument Type="String" Source="Constant" Value="" />
+				</Arguments>
+			</VehicleInterfacePartDescriptor>
+		</VehicleInterfacePartDescriptors>
+		<InterfaceGroupDescriptors>
+			<InterfaceGroupDescriptor>
+				<GroupId Value="cargo" />
+				<GroupName Value="ГРУЗ" />
+				<InterfaceParts>
+					<InterfacePart>
+						<ClassName Value="LadenPart" />
+						<Arguments>
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="String" Source="Constant" Value="False" />
+							<Argument Type="String" Source="Constant" Value="" />
+						</Arguments>
+					</InterfacePart>
+					<InterfacePart>
+						<ClassName Value="WeighingStringFieldPart" />
+						<Arguments>
+							<Argument Type="String" Source="Constant" Value="volume" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="String" Source="Constant" Value="True" />
+							<Argument Type="String" Source="Constant" Value="" />
+						</Arguments>
+					</InterfacePart>
+					<InterfacePart>
+						<ClassName Value="StringTablePart" />
+						<Arguments>
+							<Argument Type="String" Source="Constant" Value="drivers_table" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="String" Source="Constant" Value="True" />
+							<Argument Type="String" Source="Constant" Value="" />
+						</Arguments>
+					</InterfacePart>
+				</InterfaceParts>
+			</InterfaceGroupDescriptor>
+			<InterfaceGroupDescriptor>
+				<GroupId Value="weight" />
+				<GroupName Value="ВЕС" />
+				<InterfaceParts>
+					<InterfacePart>
+						<ClassName Value="WeightPart" />
+						<Arguments />
+					</InterfacePart>
+				</InterfaceParts>
+			</InterfaceGroupDescriptor>
+			<InterfaceGroupDescriptor>
+				<GroupId Value="extra" />
+				<GroupName Value="ДОПОЛНИТЕЛЬНО" />
+				<InterfaceParts>
+					<InterfacePart>
+						<ClassName Value="ConditionsPart" />
+						<Arguments>
+							<Argument Type="String" Source="Constant" Value="Условия взвешивания" />
+						</Arguments>
+					</InterfacePart>
+					<InterfacePart>
+						<ClassName Value="WeighingStringFieldPart" />
+						<Arguments>
+							<Argument Type="String" Source="Constant" Value="weighing_comment" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="String" Source="Constant" Value="True" />
+							<Argument Type="String" Source="Constant" Value="" />
+						</Arguments>
+					</InterfacePart>
+				</InterfaceParts>
+			</InterfaceGroupDescriptor>
+		</InterfaceGroupDescriptors>
+	</Interface>
+	<Database>
+		<DatabaseTimeout Value="15" />
+		<VehicleFields>
+			<VehicleField>
+				<FieldCode Value="1" />
+				<FieldName Value="weight_threshold" />
+				<Caption Value="Порог наличия груза" />
+				<AllowDBNull Value="false" />
+				<DefaultValue Value="" />
+			</VehicleField>
+			<VehicleField>
+				<FieldCode Value="2" />
+				<FieldName Value="manufacturer" />
+				<Caption Value="Марка ТС" />
+				<AllowDBNull Value="false" />
+				<DefaultValue Value="" />
+			</VehicleField>
+		</VehicleFields>
+		<WeighingFields>
+			<WeighingField>
+				<FieldCode Value="1" />
+				<FieldName Value="weighing_comment" />
+				<Caption Value="Примечание" />
+				<AllowDBNull Value="false" />
+				<DefaultValue Value="" />
+			</WeighingField>
+			<WeighingField>
+				<FieldCode Value="2" />
+				<FieldName Value="volume" />
+				<Caption Value="Объем ТКО, м3" />
+				<AllowDBNull Value="false" />
+				<DefaultValue Value="" />
+			</WeighingField>
+		</WeighingFields>
+		<WeighingTables>
+			<WeighingTable>
+				<TableCode Value="1" />
+				<TableName Value="cargos_table" />
+				<TableCaption Value="Грузы" />
+				<Fields>
+					<Field>
+						<FieldCode Value="3" />
+						<FieldName Value="cargo_name" />
+						<Caption Value="Груз" />
+						<AllowDBNull Value="false" />
+						<DefaultValue Value="" />
+					</Field>
+				</Fields>
+			</WeighingTable>
+			<WeighingTable>
+				<TableCode Value="4" />
+				<TableName Value="drivers_table" />
+				<TableCaption Value="Водители" />
+				<Fields>
+					<Field>
+						<FieldCode Value="6" />
+						<FieldName Value="driver_name" />
+						<Caption Value="ФИО водителя" />
+						<AllowDBNull Value="false" />
+						<DefaultValue Value="" />
+					</Field>
+				</Fields>
+			</WeighingTable>
+		</WeighingTables>
+	</Database>
+	<HardwareUnits>
+		<HardwareControllerDescriptors>
+			<HardwareControllerDescriptor>
+				<ClassName Value="MallenomVideoController" />
+				<Id Value="MallenomVideoController" />
+				<Name Value="Драйвер Mallenom" />
+			</HardwareControllerDescriptor>
+			<HardwareControllerDescriptor>
+				<ClassName Value="MockHardwareController" />
+				<Id Value="MockController" />
+				<Name Value="Контроллер Mock" />
+			</HardwareControllerDescriptor>
+		</HardwareControllerDescriptors>
+		<HardwareUnitDescriptors>
+			<HardwareUnitDescriptor>
+				<ClassName Value="MallenomVideoCamera" />
+				<Id Value="VideoCamera" />
+				<Name Value="Камера распознавания" />
+			</HardwareUnitDescriptor>
+			<HardwareUnitDescriptor>
+				<ClassName Value="MallenomVideoCamera" />
+				<Id Value="SurveillanceCamera" />
+				<Name Value="Камера наблюдения" />
+			</HardwareUnitDescriptor>
+			<HardwareUnitDescriptor>
+				<ClassName Value="MockScales" />
+				<Id Value="Scales" />
+				<Name Value="Весы" />
+			</HardwareUnitDescriptor>
+		</HardwareUnitDescriptors>
+		<HardwareRelationDescriptors>
+			<HardwareRelationDescriptor>
+				<ControllerId Value="MallenomVideoController" />
+				<UnitId Value="VideoCamera" />
+			</HardwareRelationDescriptor>
+			<HardwareRelationDescriptor>
+				<ControllerId Value="MallenomVideoController" />
+				<UnitId Value="SurveillanceCamera" />
+			</HardwareRelationDescriptor>
+			<HardwareRelationDescriptor>
+				<ControllerId Value="MockController" />
+				<UnitId Value="Scales" />
+			</HardwareRelationDescriptor>
+		</HardwareRelationDescriptors>
+	</HardwareUnits>
+	<SchemeElements>
+		<SchemeWidth Value="1200" />
+		<SchemeHeight Value="600" />
+		<SchemeElementDescriptors>
+			<SchemeElementDescriptor>
+				<ClassName Value="Scales" />
+				<Id Value="Scales" />
+				<Name Value="Весы" />
+				<X Value="600" />
+				<Y Value="300" />
+				<Z Value="-2" />
+				<Angle Value="0" />
+			</SchemeElementDescriptor>
+			<SchemeElementDescriptor>
+				<ClassName Value="VideoCamera" />
+				<Id Value="VideoCamera" />
+				<Name Value="Камера распознавания" />
+				<X Value="1100" />
+				<Y Value="130" />
+				<Z Value="0" />
+				<Angle Value="240" />
+			</SchemeElementDescriptor>
+			<SchemeElementDescriptor>
+				<ClassName Value="VideoCamera" />
+				<Id Value="SurveillanceCamera" />
+				<Name Value="Камера наблюдения" />
+				<X Value="100" />
+				<Y Value="130" />
+				<Z Value="0" />
+				<Angle Value="120" />
+			</SchemeElementDescriptor>
+		</SchemeElementDescriptors>
+		<HardwareMappingDescriptors>
+			<HardwareMappingDescriptor>
+				<ElementId Value="Scales" />
+				<HardwareUnitId Value="Scales" />
+			</HardwareMappingDescriptor>
+			<HardwareMappingDescriptor>
+				<ElementId Value="VideoCamera" />
+				<HardwareUnitId Value="VideoCamera" />
+			</HardwareMappingDescriptor>
+			<HardwareMappingDescriptor>
+				<ElementId Value="SurveillanceCamera" />
+				<HardwareUnitId Value="SurveillanceCamera" />
+			</HardwareMappingDescriptor>
+		</HardwareMappingDescriptors>
+		<ElementStateSynchronizerDescriptors />
+		<AreHardwareErrorsHidden Value="false" />
+	</SchemeElements>
+	<States>
+		<StateDescriptors>
+			<StateDescriptor>
+				<Id Value="Waiting" />
+				<Name Value="Ожидание" />
+				<IsWeighing Value="false" />
+				<ScalesId Value="Scales" />
+				<Stages>
+					<Stage>
+						<Id Value="Default" />
+						<Name Value="Ожидание" />
+						<Description Value="Ожидание появления транспортного средства" />
+						<IsSaving Value="false" />
+						<NextStageId Value="" />
+						<Commands>
+							<Command>
+								<Group Value="1" />
+								<Name Value="Начать&#xD;&#xA;взвешивание" />
+								<Description Value="Запуск процедуры взвешивания" />
+								<IconName Value="truckLeft" />
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="StartWithInitialStage" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="Weighing" />
+											</Arguments>
+										</Action>
+									</Actions>
+								</Action>
+							</Command>
+						</Commands>
+						<BeforeAction>
+							<Actions>
+								<Action>
+									<MethodName Value="UnlockLockedEvent" />
+									<Arguments />
+								</Action>
+								<Action>
+									<MethodName Value="SetElementState" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="VideoCamera" />
+										<Argument Type="String" Source="Constant" Value="On" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="SetElementState" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Scales" />
+										<Argument Type="String" Source="Constant" Value="On" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="SetElementState" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="SurveillanceCamera" />
+										<Argument Type="String" Source="Constant" Value="On" />
+									</Arguments>
+								</Action>
+							</Actions>
+						</BeforeAction>
+						<AfterAction>
+							<Actions />
+						</AfterAction>
+						<Requirements />
+						<IsAutoContinuing Value="false" />
+						<Events>
+							<Event>
+								<ClassName Value="ScalesThresholdEvent" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="Scales" />
+									<Argument Type="Boolean" Source="Constant" Value="True" />
+								</Arguments>
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="StartWithInitialStage" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="Weighing" />
+											</Arguments>
+										</Action>
+									</Actions>
+								</Action>
+								<Condition>
+									<Conditions />
+								</Condition>
+							</Event>
+						</Events>
+					</Stage>
+				</Stages>
+				<BeforeAction>
+					<Actions />
+				</BeforeAction>
+				<AfterAction>
+					<Actions />
+				</AfterAction>
+				<RequiredConditions />
+				<IsSetup Value="false" />
+				<IsDefault Value="true" />
+				<IsCancellable Value="true" />
+			</StateDescriptor>
+			<StateDescriptor>
+				<Id Value="Setup" />
+				<Name Value="Настройка оборудования" />
+				<IsWeighing Value="false" />
+				<ScalesId Value="" />
+				<Stages>
+					<Stage>
+						<Id Value="Tuning" />
+						<Name Value="Настройка" />
+						<Description Value="Настройте оборудование необходимым образом" />
+						<IsSaving Value="false" />
+						<NextStageId Value="" />
+						<Commands>
+							<Command>
+								<Group Value="3" />
+								<Name Value="Завершить" />
+								<Description Value="Завершить процедуру настройки" />
+								<IconName Value="finishSetup" />
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="StartWithInitialStage" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="Waiting" />
+											</Arguments>
+										</Action>
+									</Actions>
+								</Action>
+							</Command>
+						</Commands>
+						<BeforeAction>
+							<Actions />
+						</BeforeAction>
+						<AfterAction>
+							<Actions />
+						</AfterAction>
+						<Requirements />
+						<IsAutoContinuing Value="false" />
+						<Events />
+					</Stage>
+				</Stages>
+				<BeforeAction>
+					<Actions />
+				</BeforeAction>
+				<AfterAction>
+					<Actions />
+				</AfterAction>
+				<RequiredConditions />
+				<IsSetup Value="true" />
+				<IsDefault Value="false" />
+				<IsCancellable Value="true" />
+			</StateDescriptor>
+			<StateDescriptor>
+				<Id Value="Weighing" />
+				<Name Value="Взвешивание" />
+				<IsWeighing Value="true" />
+				<ScalesId Value="Scales" />
+				<Stages>
+					<Stage>
+						<Id Value="VehiclePlateRecognition" />
+						<Name Value="Распознавание&#xD;&#xA;номера TC" />
+						<Description Value="Ожидание автоматического распознания номера транспортного средства" />
+						<IsSaving Value="false" />
+						<NextStageId Value="Weighing" />
+						<Commands>
+							<Command>
+								<Group Value="3" />
+								<Name Value="Сохранить кадр&#xD;&#xA;и продолжить" />
+								<Description Value="Сохранить кадр с камеры распознавания и продолжить процедуру взвешивания" />
+								<IconName Value="continueIcon" />
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="CaptureSnapshotIfNotYet" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="VideoCamera" />
+												<Argument Type="String" Source="Constant" Value="VehicleSlp" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="RunNextStage" />
+											<Arguments />
+										</Action>
+									</Actions>
+								</Action>
+							</Command>
+						</Commands>
+						<BeforeAction>
+							<Actions>
+								<Action>
+									<MethodName Value="RemoveElement" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Car" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="AddCar" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Car" />
+										<Argument Type="String" Source="Constant" Value="Транспортное средство" />
+										<Argument Type="Double" Source="Constant" Value="-35" />
+										<Argument Type="Double" Source="Constant" Value="300" />
+										<Argument Type="Double" Source="Constant" Value="-1" />
+										<Argument Type="Double" Source="Constant" Value="90" />
+										<Argument Type="Double" Source="Constant" Value="635" />
+										<Argument Type="String" Source="Constant" Value="DriveUpLeft" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="StartWaitingForSlpRecognition" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="VehicleSlp" />
+										<Argument Type="String" Source="Constant" Value="VideoCamera" />
+										<Argument Type="String" Source="Constant" Value="Any" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="SetElementState" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="VideoCamera" />
+										<Argument Type="String" Source="Constant" Value="Recognition" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="StartTimer" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="RecognitionTimeoutTimer" />
+										<Argument Type="Int32" Source="Variable" VariableName="$VehicleRecognitionTimeout" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="CheckRequirements" />
+									<Arguments />
+								</Action>
+							</Actions>
+						</BeforeAction>
+						<AfterAction>
+							<Actions>
+								<Action>
+									<MethodName Value="StopWaitingForSlpRecognition" />
+									<Arguments />
+								</Action>
+								<Action>
+									<MethodName Value="SetElementState" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="VideoCamera" />
+										<Argument Type="String" Source="Constant" Value="On" />
+									</Arguments>
+								</Action>
+							</Actions>
+						</AfterAction>
+						<Requirements>
+							<Requirement>
+								<ClassName Value="CameraSnapshotAvailabilityRequirement" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="VideoCamera" />
+									<Argument Type="String" Source="Constant" Value="VehicleSlp" />
+									<Argument Type="String" Source="Constant" Value="Должен быть распознан регистрационный знак транспортного средства." />
+								</Arguments>
+							</Requirement>
+						</Requirements>
+						<IsAutoContinuing Value="true" />
+						<Events>
+							<Event>
+								<ClassName Value="TimerEllapsedEvent" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="RecognitionTimeoutTimer" />
+								</Arguments>
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="StopWaitingForSlpRecognition" />
+											<Arguments />
+										</Action>
+										<Action>
+											<MethodName Value="CaptureSnapshotIfNotYet" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="VideoCamera" />
+												<Argument Type="String" Source="Constant" Value="VehicleSlp" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="SetElementState" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="VideoCamera" />
+												<Argument Type="String" Source="Constant" Value="On" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="RunNextStage" />
+											<Arguments />
+										</Action>
+									</Actions>
+								</Action>
+								<Condition>
+									<Conditions>
+										<Condition>
+											<ClassName Value="ScalesThresholdLogicalCondition" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="Scales" />
+												<Argument Type="Boolean" Source="Constant" Value="True" />
+											</Arguments>
+										</Condition>
+									</Conditions>
+								</Condition>
+							</Event>
+							<Event>
+								<ClassName Value="SlpRecognizedEvent" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="VideoCamera" />
+									<Argument Type="String" Source="Constant" Value="Any" />
+								</Arguments>
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="SetElementState" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="VideoCamera" />
+												<Argument Type="String" Source="Constant" Value="On" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="RunNextStage" />
+											<Arguments />
+										</Action>
+									</Actions>
+								</Action>
+								<Condition>
+									<Conditions>
+										<Condition>
+											<ClassName Value="ScalesThresholdLogicalCondition" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="Scales" />
+												<Argument Type="Boolean" Source="Constant" Value="True" />
+											</Arguments>
+										</Condition>
+									</Conditions>
+								</Condition>
+							</Event>
+							<Event>
+								<ClassName Value="ScalesThresholdEvent" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="Scales" />
+									<Argument Type="Boolean" Source="Constant" Value="False" />
+								</Arguments>
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="StartWithInitialStage" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="Waiting" />
+											</Arguments>
+										</Action>
+									</Actions>
+								</Action>
+								<Condition>
+									<Conditions />
+								</Condition>
+							</Event>
+						</Events>
+					</Stage>
+					<Stage>
+						<Id Value="Weighing" />
+						<Name Value="Взвешивание" />
+						<Description Value="Ожидание стабилизации веса" />
+						<IsSaving Value="false" />
+						<NextStageId Value="Exiting" />
+						<Commands>
+							<Command>
+								<Group Value="3" />
+								<Name Value="Зафиксировать&#xD;&#xA;текущий вес" />
+								<Description Value="Зафиксировать текущее значение веса и продолжить процедуру взвешивания" />
+								<IconName Value="continueIcon" />
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="CaptureSnapshot" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="VideoCamera" />
+												<Argument Type="String" Source="Constant" Value="True" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="CaptureSnapshot" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="SurveillanceCamera" />
+												<Argument Type="String" Source="Constant" Value="True" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="WeighingContinueRequest" />
+											<Arguments />
+										</Action>
+									</Actions>
+								</Action>
+							</Command>
+						</Commands>
+						<BeforeAction>
+							<Actions>
+								<Action>
+									<MethodName Value="UnlockLockedEvent" />
+									<Arguments />
+								</Action>
+								<Action>
+									<MethodName Value="RemoveElement" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Car" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="AddCar" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Car" />
+										<Argument Type="String" Source="Constant" Value="Транспортное средство" />
+										<Argument Type="Double" Source="Constant" Value="600" />
+										<Argument Type="Double" Source="Constant" Value="300" />
+										<Argument Type="Double" Source="Constant" Value="-1" />
+										<Argument Type="Double" Source="Constant" Value="90" />
+										<Argument Type="Double" Source="Constant" Value="0" />
+										<Argument Type="String" Source="Constant" Value="Stopped" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="SetElementState" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Scales" />
+										<Argument Type="String" Source="Constant" Value="Weighing" />
+									</Arguments>
+								</Action>
+							</Actions>
+						</BeforeAction>
+						<AfterAction>
+							<Actions>
+								<Action>
+									<MethodName Value="SetElementState" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Scales" />
+										<Argument Type="String" Source="Constant" Value="On" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="RemoveElement" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Car" />
+									</Arguments>
+								</Action>
+							</Actions>
+						</AfterAction>
+						<Requirements>
+							<Requirement>
+								<ClassName Value="WeightStabilityRequirement" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="Scales" />
+									<Argument Type="String" Source="Constant" Value="Weighing" />
+									<Argument Type="String" Source="Constant" Value="Нестабильное значение веса ТС." />
+								</Arguments>
+							</Requirement>
+						</Requirements>
+						<IsAutoContinuing Value="true" />
+						<Events>
+							<Event>
+								<ClassName Value="WeightStabilizedEvent" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="Scales" />
+								</Arguments>
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="LockCurrentEvent" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="EventType" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="CaptureSnapshot" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="VideoCamera" />
+												<Argument Type="String" Source="Constant" Value="True" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="CaptureSnapshot" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="SurveillanceCamera" />
+												<Argument Type="String" Source="Constant" Value="True" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="CheckRequirements" />
+											<Arguments />
+										</Action>
+									</Actions>
+								</Action>
+								<Condition>
+									<Conditions />
+								</Condition>
+							</Event>
+							<Event>
+								<ClassName Value="ScalesThresholdEvent" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="Scales" />
+									<Argument Type="Boolean" Source="Constant" Value="False" />
+								</Arguments>
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="PushMaxWeight" />
+											<Arguments>
+												<Argument Type="String" Source="Constant" Value="False" />
+											</Arguments>
+										</Action>
+										<Action>
+											<MethodName Value="RunNextStage" />
+											<Arguments />
+										</Action>
+									</Actions>
+								</Action>
+								<Condition>
+									<Conditions />
+								</Condition>
+							</Event>
+						</Events>
+					</Stage>
+					<Stage>
+						<Id Value="Exiting" />
+						<Name Value="Съезд с весов&#xD;&#xA;и сохранение" />
+						<Description Value="Ожидание съезда транспортного средства с весов и сохранение данных в БД" />
+						<IsSaving Value="true" />
+						<NextStageId Value="" />
+						<Commands>
+							<Command>
+								<Group Value="3" />
+								<Name Value="Сохранить&#xD;&#xA;взвешивание" />
+								<Description Value="Сохранить данные взвешивания в БД" />
+								<IconName Value="continueIcon" />
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="RunNextStage" />
+											<Arguments />
+										</Action>
+									</Actions>
+								</Action>
+							</Command>
+						</Commands>
+						<BeforeAction>
+							<Actions>
+								<Action>
+									<MethodName Value="RemoveElement" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Car" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="AddCar" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Car" />
+										<Argument Type="String" Source="Constant" Value="Транспортное средство" />
+										<Argument Type="Double" Source="Constant" Value="600" />
+										<Argument Type="Double" Source="Constant" Value="300" />
+										<Argument Type="Double" Source="Constant" Value="-1" />
+										<Argument Type="Double" Source="Constant" Value="90" />
+										<Argument Type="Double" Source="Constant" Value="1350" />
+										<Argument Type="String" Source="Constant" Value="DriveUpRight" />
+									</Arguments>
+								</Action>
+								<Action>
+									<MethodName Value="CheckRequirements" />
+									<Arguments />
+								</Action>
+							</Actions>
+						</BeforeAction>
+						<AfterAction>
+							<Actions>
+								<Action>
+									<MethodName Value="RemoveElement" />
+									<Arguments>
+										<Argument Type="String" Source="Constant" Value="Car" />
+									</Arguments>
+								</Action>
+							</Actions>
+						</AfterAction>
+						<Requirements>
+							<Requirement>
+								<ClassName Value="ScalesThresholdRequirement" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="Scales" />
+									<Argument Type="String" Source="Constant" Value="On" />
+									<Argument Type="Boolean" Source="Constant" Value="False" />
+									<Argument Type="String" Source="Constant" Value="Вес должен быть ниже заданного порога присутствия транспортного средства." />
+								</Arguments>
+							</Requirement>
+						</Requirements>
+						<IsAutoContinuing Value="true" />
+						<Events>
+							<Event>
+								<ClassName Value="ScalesThresholdEvent" />
+								<Arguments>
+									<Argument Type="String" Source="Constant" Value="Scales" />
+									<Argument Type="Boolean" Source="Constant" Value="False" />
+								</Arguments>
+								<Action>
+									<Actions>
+										<Action>
+											<MethodName Value="CheckRequirements" />
+											<Arguments />
+										</Action>
+									</Actions>
+								</Action>
+								<Condition>
+									<Conditions />
+								</Condition>
+							</Event>
+						</Events>
+					</Stage>
+				</Stages>
+				<BeforeAction>
+					<Actions />
+				</BeforeAction>
+				<AfterAction>
+					<Actions />
+				</AfterAction>
+				<RequiredConditions>
+					<RequiredCondition>
+						<ClassName Value="WeightStabilityCondition" />
+						<Arguments>
+							<Argument Type="String" Source="Constant" Value="Scales" />
+							<Argument Type="Boolean" Source="Constant" Value="True" />
+							<Argument Type="String" Source="Constant" Value="Не достигнута стабилизация веса." />
+						</Arguments>
+					</RequiredCondition>
+				</RequiredConditions>
+				<IsSetup Value="false" />
+				<IsDefault Value="false" />
+				<IsCancellable Value="true" />
+			</StateDescriptor>
+		</StateDescriptors>
+	</States>
+	<Variables>
+		<VariableDescriptors>
+			<VariableDescriptor Type="Int32" Name="$VehicleRecognitionTimeout" Description="Таймаут распознавания номера ТС, мс" DefaultValue="15000" MinValue="10000" MaxValue="60000" />
+		</VariableDescriptors>
+	</Variables>
+</Configuration>

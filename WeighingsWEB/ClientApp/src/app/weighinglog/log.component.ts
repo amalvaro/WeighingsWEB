@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { WeighingLog } from "src/data/structure/WeighingLog";
 
 import { WeighingImages } from '../../data/structure/WeghingImages';
+import { VirtualTable } from '../../data/structure/VirtualTable';
+import { Dictionary } from '../../data/structure/DictionaryData';
 import { Cookie } from '../util/cookie';
 
 import { Router } from '@angular/router';
@@ -17,39 +19,97 @@ var filterContainer = null;
     templateUrl: './log.component.html',
 })
 export class WeighingLogComponent {
+
     public data: WeighingLogResponse;
     public currentPageCounter: number = 1;
-
     public isThisFinishPage: boolean = false;
-
     public currentPageArrayNumbers: number[] = [];
     public maxPages: number;
-
     public MAX_PAGE_COUNT: number = 4;
     public MAX_ROWS_COUNT: number = 5;
-
     public slideState: number[] = [];
     public currentModalPicture: WeighingImages;
     public currentDialogData: WeighingLog;
-
     public filterState: boolean[] = [true, true, true, true, true, true, true, true, true];
-
 
     constructor(private route: ActivatedRoute, private http: HttpClient, @Inject('BASE_URL') private  baseUrl: string) {
 
         this.UpdateContent(
             route.snapshot.paramMap.get("page")
         );
+        this.LoadVirtualTables();
+        
 
         /* Загрузка фильтра столбцов */
         let val = Cookie.getCookieObject<boolean[]>("filterState");
         this.filterState = !val ? this.filterState : val;
 
         /* Загрузка фильтра данных */
-        let searchParams = Cookie.getCookieObject<any>("searchParams");
-        this.filterData = !searchParams ? this.filterData : searchParams;
+        /* let searchParams = Cookie.getCookieObject<any>("searchParams");
+        this.filterData = !searchParams ? this.filterData : searchParams; */
 
     }
+
+    public dictionaryData = {  };
+
+    GetFieldsDataForTable(Id: number) {
+        
+        let result: Dictionary[] = [];
+
+
+        for(let i = 0; i < this.searchTables[Id].fields.length; i++) {
+            let dict = this.dictionaryData[this.searchTables[Id].fields[i].field.fieldCode.value];
+            if(dict != null) {
+                for(let j = 0; j < dict.length; j++) {
+                    result.push(dict[j]);
+                }
+            }
+        } 
+
+        return result;
+
+    }
+
+    LoadDictionaryData() {
+        for(let i = 0; i < this.searchTables.length; i++) {
+            for(let j = 0; j < this.searchTables[i].fields.length; j++) {
+                let fieldId = this.searchTables[i].fields[j].field.fieldCode.value;
+                this.http.get<Dictionary[]>(this.baseUrl + 'dictionary/?fieldId='+fieldId).subscribe(result => {
+                    this.dictionaryData[fieldId]=result;
+                });
+            } 
+        }
+    }
+
+    public searchTables: VirtualTable[] ;
+    public dividedTables = [];
+
+    LoadVirtualTables() {
+        this.http.get<VirtualTable[]>(this.baseUrl + 'interface').subscribe(result => {
+            this.searchTables = result;
+            
+            if(this.searchTables.length > 0) {
+                this.filterData.directory.selection.length = this.searchTables.length;
+                this.filterData.directory.selection.fill(null);
+    
+                this.dividedTables = [];
+                this.LoadDictionaryData();
+
+                for(let i = 0; i < this.searchTables.length; i++) {
+                    this.dividedTables.push({
+                        firstTable: this.searchTables[i],
+                        secondTable: this.searchTables[i + 1] != null ? this.searchTables[i + 1] : null
+                    });
+                    i = i + 1;  
+                } 
+            }
+
+
+        });
+        
+    }
+
+    
 
     dropDownCheckedState(id:number) {
         this.filterState[id] = !this.filterState[id];
@@ -57,8 +117,6 @@ export class WeighingLogComponent {
     }
 
     openDropdown(id:string) {
-
-        
 
         var element: Element    = document.getElementById(id);
         var btn: Element        = element.getElementsByClassName("btn")[0];
@@ -94,8 +152,8 @@ export class WeighingLogComponent {
         date:           { enable: false, from: null, to: null },
         typeAndStatus:  { firstSelection: null, secondSelection: null },
         carNumber:      { carNumber: null, fullContain: false },
-        directory:      { firstSelection: null, secondSelection: null },
-        values:         { value: null, selection: null, fullContain: null }
+        directory:      { selection: [null] },
+        values:         { value: null, selection: null, fullContain: false }
     };
 
     ApplyDateMask(Id:number) {
@@ -127,8 +185,9 @@ export class WeighingLogComponent {
         this.filterData.date.to = secondString;
     }
 
+
+
     CheckDateInput() {
-        // alert("called");
         if(this.filterData.date.enable != false) {
             $("#date_from").attr('disabled','disabled');
             $("#date_to").attr('disabled','disabled');
@@ -160,15 +219,15 @@ export class WeighingLogComponent {
             date: { enable: false, from: null, to: null },
             typeAndStatus: { firstSelection: null, secondSelection: null },
             carNumber: { carNumber: null, fullContain: false },
-            directory: { firstSelection: null, secondSelection: null },
-            values: { value: null, selection: null, fullContain: null }
+            directory: { selection: [null] },
+            values: { value: null, selection: null, fullContain: false }
         };
+
+        this.filterData.directory.selection.length = this.searchTables.length;
+        this.filterData.directory.selection.fill(null);
 
         filterContainer = null;
         this.UpdateContent();
-
-        // Cookie.deleteCookie("searchParams");
-        // document.location.href=document.location.href;
 
     }
 
@@ -234,24 +293,35 @@ export class WeighingLogComponent {
         for (let i = startAt; i <= this.maxPages; i++) {
 
             this.currentPageArrayNumbers.push(i);
+            
+            if(this.maxPages == i) {
+                this.isThisFinishPage = true;
+                break;
+            }
+
             if (this.currentPageArrayNumbers.length >= this.MAX_PAGE_COUNT) {
+                this.isThisFinishPage = false;
+                break;
+            }
+            this.isThisFinishPage = true;
+            
+            // console.log("c = index = " + i);
+            // console.log("c = max = " + this.maxPages);
+
+        }
+    }
+    UpdatePrevPageNumber(currentPage: number = 1): void {
+        this.currentPageArrayNumbers = [];
+        for (let i = currentPage; 1 <= i; i--) {
+            this.currentPageArrayNumbers.push(i);
+            if (this.currentPageArrayNumbers.length >= this.MAX_PAGE_COUNT) {
+                
                 this.isThisFinishPage = false;
                 break;
             }
             this.isThisFinishPage = true;
 
-        }
-    }
-    UpdatePrevPageNumber(currentPage: number = 1): void {
-        /* var startAt: number = (Math.ceil(currentPage / this.MAX_PAGE_COUNT) - 1 + (1 / this.MAX_PAGE_COUNT)) / (1 / this.MAX_PAGE_COUNT); */
-        this.currentPageArrayNumbers = [];
-        for (let i = currentPage; 1 <= i; i--) {
-            this.currentPageArrayNumbers.push(i);
-            if (this.currentPageArrayNumbers.length >= this.MAX_PAGE_COUNT) {
-                this.isThisFinishPage = false;
-                break;
-            }
-            this.isThisFinishPage = true;
+            
         }
         this.currentPageArrayNumbers.reverse();
     }

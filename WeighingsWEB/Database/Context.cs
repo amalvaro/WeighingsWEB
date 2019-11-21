@@ -21,6 +21,8 @@ namespace Database
         public DbSet<WeighingConditions> WeighingConditions { get; set; }
         public DbSet<WeighingImages> WeighingImages { get; set; }
         public DbSet<WeighingLog> WeighingLog { get; set; }
+        public DbSet<RegisterValues> RegisterValues { get; set; }
+        public DbSet<WeighingReferences> WeighingReferences { get; set; }
 
 
         public Context()
@@ -32,15 +34,18 @@ namespace Database
         {   
             DatabaseConfiguration configuration = new DatabaseConfiguration("mssql-connection.cfg");
 
-            string s = configuration.BuildConnectionString();
-
-            /*Console.WriteLine("------ ||||||| --------------");
-            Console.WriteLine("------ ||||||| --------------");
-            Console.WriteLine(s);
-            Console.WriteLine("------ ||||||| --------------");
-            Console.WriteLine("------ ||||||| --------------"); */
-
-            optionsBuilder.UseSqlServer(s);    
+            optionsBuilder.UseSqlServer(configuration.BuildConnectionString());    
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RegisterValues>(eb => {
+                eb.HasNoKey();
+            });
+            modelBuilder.Entity<WeighingReferences>()
+				.HasKey(e => new { e.RecordId, e.WeighingId });
+
+        }
+
     }
 }
