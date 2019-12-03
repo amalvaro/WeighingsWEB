@@ -15,7 +15,7 @@ namespace Database
         public DbSet<UserRolePermissions> UserRolePermissions { get; set; }
         public DbSet<UserRoleReferences> UserRoleReferences { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
-        public DbSet<Users> Users { get; set; }
+        /* public DbSet<Users> Users { get; set; } */
         public DbSet<VehicleDataRecords> VehicleDataRecords { get; set; }
         public DbSet<VehiclePlateStencils> VehiclePlateStencils { get; set; }
         public DbSet<WeighingConditions> WeighingConditions { get; set; }

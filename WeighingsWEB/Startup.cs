@@ -1,4 +1,4 @@
-using Database;
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,7 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Newtonsoft.Json;
+
+using Middleware;
+using Database;
 
 namespace WeighingsWEB
 {
@@ -24,36 +28,41 @@ namespace WeighingsWEB
 		public void ConfigureServices(IServiceCollection services)
 		{
 			
+			services.AddMvc().AddJsonOptions(options => {
+				options.JsonSerializerOptions.IgnoreNullValues = true;
+			});
 
-
-			services.AddMvc()
-				.AddJsonOptions(options =>
-				{
-					options.JsonSerializerOptions.IgnoreNullValues = true;
-				});
-
+			services.AddTransient<UserContext> ();
 			services.AddTransient<DbContext, Context> ();
 			services.AddSingleton<Manager>();
 
 			services.AddControllersWithViews();
-			services.AddSpaStaticFiles(configuration =>
-			{
+			services.AddSpaStaticFiles(configuration => {
 				configuration.RootPath = "ClientApp/dist";
 			});
+
+			services.AddDistributedMemoryCache();
+            // services.AddSession();
+
+			services.AddDistributedMemoryCache();
+				services.AddSession(options =>
+				{
+					options.Cookie.Name = ".Weighings.Session";
+					options.IdleTimeout = TimeSpan.FromSeconds(3600);
+					options.Cookie.IsEssential = true;
+				});
+
+
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			app.UseSession();  
+			app.UseMiddleware<AuthorizationMiddleware>();
+
 			app.UseCookiePolicy();
-			
-			/* Этот компонент Middleware необходим для проверки существования строки подключения MSSQL  */
-			// app.UseMiddleware<MSSQLConnectionMiddleware>();
-			
-			// app.UseForwardedHeaders
 			if (env.IsDevelopment())
-			{
 				app.UseDeveloperExceptionPage();
-			}
 			else
 			{
 				app.UseExceptionHandler("/Error");
@@ -66,6 +75,8 @@ namespace WeighingsWEB
 			{
 				app.UseSpaStaticFiles();
 			}
+
+			// app.UseAuthentication();
 
 			app.UseRouting();
 			app.UseEndpoints(endpoints =>

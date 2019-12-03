@@ -49,14 +49,6 @@ namespace WeighingsWEB.Controllers
         /* Метод для добавления строки подключения. */
         public object Create(string Server, string Database, string Login = null, string Password = null) {
 
-            Console.WriteLine("------");
-            Console.WriteLine(Server);
-            Console.WriteLine(Database);
-            Console.WriteLine(Login);
-            Console.WriteLine(Password);
-            Console.WriteLine("------");
-
-
             bool bResult = true;
             DatabaseConfiguration configuration = new DatabaseConfiguration("mssql-connection.cfg");
 

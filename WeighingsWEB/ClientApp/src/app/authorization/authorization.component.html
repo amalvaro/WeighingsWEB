@@ -1,0 +1,14 @@
+
+<form class="needs-validation margin-top-50px margin-bottom-50px margin-left-50px margin-right-50px environment-border font-12px">
+    <div class="form-group">
+        <label for="inputEmail">Имя пользователя</label>
+        <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
+      </div>
+      <div class="form-group">
+        <label for="inputPassword">Пароль</label>
+        <input type="password" class="form-control" id="inputPassword">
+      </div>
+      <button type="submit" (click)="SendAuthorizationRequest()" class="btn btn-primary">Авторизоваться</button>
+      <small class="form-text inline-block margin-left-15px color-red" id="ConnectionNotify"></small>
+      <img *ngIf="bShowAuthorizationProgress" src="./assets/images/load.gif" height="25" class="margin-left-15px" />
+</form>

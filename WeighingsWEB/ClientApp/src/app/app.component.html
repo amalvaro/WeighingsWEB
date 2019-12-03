@@ -1,9 +1,10 @@
 <body>
-  <app-nav-menu *ngIf="!bShowSQLConnectionAuth"></app-nav-menu>
+  <app-nav-menu *ngIf="bShowNavbar"></app-nav-menu>
   <div class="container">
-    <router-outlet *ngIf="!bShowSQLConnectionAuth"></router-outlet>
 
+    <router-outlet *ngIf="bShowContent"></router-outlet>
     <connection *ngIf="bShowSQLConnectionAuth"></connection>
+    <authorization *ngIf="bShowAuthorization"></authorization>
 
   </div>
 </body>

@@ -214,6 +214,7 @@
         <td class="text-center">
           <!-- <weighing-slider [weighing-picture-array]="log.weighingImages" picture-size="150" slider-name="logInfoSlider"></weighing-slider>-->
           <button class="btn btn-purple margin-top-10px" data-target="#expanded-data" data-toggle="modal" (click)="SetCurrentDialogData(currentElement)">Подробнее</button>
+          <a class="full-space font-12px" href='#'>Экспорт</a>
         </td>
         <td *ngIf="filterState[0]">  {{ log.timeStamp | date:'dd/MM/yyyy h:mm:ss'}}</td>
         <td *ngIf="filterState[1]">  {{ log.weight }}</td>
