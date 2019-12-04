@@ -1,0 +1,113 @@
+
+<!-- Main data:
+	 wId - Id взвешивания (AddVarHeap). -->
+
+@BindQuery(wId)
+@Query(wLog, "SELECT * FROM WeighingLog WHERE Id=@wId" )
+
+<!-- Loading previous weighing -->
+
+@BindQuery(wLog.PreviousWeighingId)
+@Query(prevLog, "SELECT TimeStamp, Weight FROM WeighingLog WHERE Id=@PreviousWeighingId" )
+
+<!-- Loading pictures of weighing -->
+
+@BindQuery(wLog.Id)
+@Query(wImages, "SELECT * FROM WeighingImages WHERE WeighingId=@Id" )
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+		<style type="text/css">
+			table { page-break-inside:auto; font-size: 15px; border-collapse: collapse; } 
+			tr { page-break-inside:avoid; page-break-after:auto } 
+			td {padding: 5px; }
+			img { width: 200px }
+			thead { display:table-header-group } 
+			tfoot { display:table-footer-group } 
+		</style>
+	</head>
+	
+	<body>
+		<p> 
+			<h4 style="text-align: center"> Акт о результатах взвешивания № @Bind(wLog.Id) </h4>
+		</p>
+		<table border=1 style="margin: auto; width:700px">
+			<thead>
+				<tr> 
+					<th>Параметр</th>
+					<th>Значение</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				
+				<tr>
+					<td> Дата и время взвешивания  </td>
+					
+					<td> @Bind(wLog.TimeStamp) </td>
+				</tr>
+				
+				<tr>
+					<td> Предыдущее взвешивание </td>
+					<td> @Bind(prevLog.TimeStamp, EMPTY_IF_NULL) </td>
+				</tr>
+				
+				<tr>
+					<td> Предыдущий вес </td>
+					<td> @Bind(prevLog.Weight, EMPTY_IF_NULL)  </td>
+				</tr>
+				
+				<tr>
+					<td> Масса нетто </td>
+					<td>  </td>
+				</tr>
+				
+				<tr>
+					<td> Номер транспортого средства </td>
+					<td> @Bind(wLog.VehiclePlate) </td>
+				</tr>
+				
+				<tr> 
+					<td colspan=2 style="text-align: center">
+						@Foreach(wImages)
+						<div style="display: inline-block;">
+							<div> @Bind(wImages.CameraId) </div>
+							<img src='data:image/@Bind(wImages.Format);base64, @Bind(wImages.ImageData,BYTE_AS_B64|EMPTY_IF_NULL)'/>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td> Груз </td>
+					<td> </td>
+				</tr>
+				<tr>
+					<td> Отправитель </td>
+					<td> </td>
+				</tr>
+				
+				<tr>
+					<td> Получатель </td>
+					<td> </td>
+				</tr>
+				
+				<tr>
+					<td> Примечание </td>
+					<td> </td>
+				</tr>
+				
+				<tr>
+					<td> Водитель (подпись) </td>
+					<td style="text-align: center; margin-top: 10px; padding-top: 25px;"> <hr/>ФИО </td>
+				</tr>
+				
+				<tr>
+					<td> Оператор (подпись) </td>
+					<td style="text-align: center; margin-top: 10px;  padding-top: 25px;"> @Bind(wLog.Operator) <hr/>ФИО </td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</body>
+</html>

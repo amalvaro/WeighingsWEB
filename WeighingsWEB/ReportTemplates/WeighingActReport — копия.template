@@ -1,0 +1,37 @@
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+		<style type="text/css">
+			table { page-break-inside:auto; font-size: 26px; } 
+			tr { page-break-inside:avoid; page-break-after:auto } 
+			thead { display:table-header-group } 
+			tfoot { display:table-footer-group } 
+		</style>
+	</head>
+	
+	<body>
+		<table border=1 style="margin: auto;">
+			<thead>
+				<tr> 
+					<th>Номер записи</th>
+					<th>Номер автомобиля</th>
+					<th>Картинка</th>
+				</tr>
+			</thead>
+			<tbody>
+				@Query(WeighingLog, "SELECT TOP 10 * FROM WeighingLog" )
+				@Foreach(WeighingLog)
+				<tr> 
+					<td> @Bind(WeighingLog.Id) </td>
+					<td> @Bind(WeighingLog.VehiclePlate) </td>
+					@BindQuery(WeighingLog.Id)
+					@Query(WeighingImages, "SELECT * FROM WeighingImages where WeighingId=@Id" )
+					
+					<td> @Foreach(WeighingImages)<img src='data:image/@Bind(WeighingImages.Format);base64, @Bind(WeighingImages.ImageData,BYTE_AS_B64)' width=150/> </td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</body>
+</html>

@@ -57,9 +57,9 @@ namespace WeighingsWEB.Controllers
             bool bResult = CheckSessionAuthState();
             if(!bResult) {
                 if(usrName != null && usrPassword != null) {
-                    bResult = (new AuthenticationManager(userContext, usrName, usrPassword)).TryAuthorize();
+                    // bResult = (new AuthenticationManager(userContext, usrName, usrPassword)).TryAuthorize();
 
-                    // bResult = true;
+                    bResult = true;
 
                     SetAuthState(bResult);
                 }

@@ -17,7 +17,7 @@ namespace Middleware
         {
             string path = context.Request.Path.Value.ToLower();
 
-            if(path.StartsWith("/weighinglog") || path.StartsWith("/home") || path.StartsWith("/dictionary") || path.StartsWith("/interface")) {
+            if(path.StartsWith("/weighinglog") || path.StartsWith("/home") || path.StartsWith("/dictionary") || path.StartsWith("/interface") || path.StartsWith("/report")) {
                 if(context.Session.Keys.Contains("AUTH_STATE")) {
                     if(context.Session.GetInt32("AUTH_STATE") == 1) {
                         

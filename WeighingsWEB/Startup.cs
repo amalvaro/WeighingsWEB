@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 
 using Middleware;
 using Database;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace WeighingsWEB
 {
@@ -35,8 +37,10 @@ namespace WeighingsWEB
 			services.AddTransient<UserContext> ();
 			services.AddTransient<DbContext, Context> ();
 			services.AddSingleton<Manager>();
+            
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
-			services.AddControllersWithViews();
+            services.AddControllersWithViews();
 			services.AddSpaStaticFiles(configuration => {
 				configuration.RootPath = "ClientApp/dist";
 			});
