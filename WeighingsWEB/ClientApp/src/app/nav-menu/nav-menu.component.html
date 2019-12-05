@@ -18,15 +18,19 @@
             <li class="nav-item"
                 [routerLinkActive]="['link-active']"
                 [routerLinkActiveOptions]="{ exact: true }">
-              
+
               <a class="btn btn-light" [routerLink]="['/']"><img src="assets/images/home.png" height="20" />Главная</a>
             </li>
-        
+
             <li class="nav-item" [routerLinkActive]="['link-active']">
-              
               <a class="btn btn-light" [routerLink]="['/weighinglog-data/1']"><img src="assets/images/folder.png" height="20" />Журнал</a>
             </li>
-            <li class="nav-item" [routerLinkActive]="['link-active']">  
+
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a class="btn btn-light" [routerLink]="['export-data']"><img src="assets/images/clipboard.png" height="20" />Экспорт</a>
+            </li>
+
+            <li class="nav-item" [routerLinkActive]="['link-active']">
               <a class="btn btn-light" [routerLink]="['control-data']"><img src="assets/images/switch.png" height="20" />Управление</a>
             </li>
           </ul>

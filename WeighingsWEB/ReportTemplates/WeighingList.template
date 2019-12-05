@@ -1,0 +1,55 @@
+
+<!-- Main data:
+	 from - от (AddVarHeap)
+	 to - до (AddVarHeap). -->
+
+@BindQuery(from, to)
+@Query(wLog, "SELECT TOP 50 * FROM WeighingLog WHERE TimeStamp >= @from and TimeStamp <= @to and isDeleted = 0 ORDER BY TimeStamp DESC" )
+
+
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+		<style type="text/css">
+			table { page-break-inside:auto; font-size: 15px; border-collapse: collapse; } 
+			tr { page-break-inside:avoid; page-break-after:auto } 
+			td {padding: 5px; }
+			img { width: 200px }
+			thead { display:table-header-group } 
+			tfoot { display:table-footer-group } 
+		</style>
+	</head>
+	
+	<body>
+		<p> 
+			<h4 style="text-align: center"> Список взвешиваний за период @Bind(from) - @Bind(to) </h4>
+		</p>
+		<table border=1 style="margin: auto; width:700px">
+			<thead>
+				<tr> 
+					<th>Дата</th>
+					<th>Номер авто</th>
+					<th>Вес</th>
+					<th>Номер прицепа</th>
+					<th>Оператор</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				
+				@Foreach(wLog)
+				<tr>
+					<td> @Bind(wLog.TimeStamp, EMPTY_IF_NULL) </td>
+					<td> @Bind(wLog.VehiclePlate, EMPTY_IF_NULL)  </td>
+					<td> @Bind(wLog.Weight, EMPTY_IF_NULL)  </td>
+					<td> @Bind(wLog.TrailerPlate, EMPTY_IF_NULL)  </td>
+					<td> @Bind(wLog.Operator, EMPTY_IF_NULL)  </td>
+				</tr>
+				
+				
+				
+			</tbody>
+		</table>
+	</body>
+</html>

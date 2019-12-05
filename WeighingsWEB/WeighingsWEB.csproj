@@ -29,16 +29,21 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Compile Remove="ClientApp\src\app\Новая папка1\**" />
+    <Compile Remove="ClientApp\src\data\**" />
     <Compile Remove="Новая папка\**" />
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\src\app\Новая папка1\**" />
+    <Content Remove="ClientApp\src\data\**" />
     <Content Remove="Новая папка\**" />
     <EmbeddedResource Remove="ClientApp\src\app\Новая папка1\**" />
+    <EmbeddedResource Remove="ClientApp\src\data\**" />
     <EmbeddedResource Remove="Новая папка\**" />
     <EntityDeploy Remove="ClientApp\src\app\Новая папка1\**" />
+    <EntityDeploy Remove="ClientApp\src\data\**" />
     <EntityDeploy Remove="Новая папка\**" />
     <None Remove="$(SpaRoot)**" />
     <None Remove="ClientApp\src\app\Новая папка1\**" />
+    <None Remove="ClientApp\src\data\**" />
     <None Remove="Новая папка\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
@@ -50,10 +55,18 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\modal-dialog\expand-info.component.ts" />
     <None Remove="ClientApp\src\app\util\cookie.ts" />
-    <None Remove="ClientApp\src\data\structure\VehicleDataRecords.ts" />
-    <None Remove="ClientApp\src\data\structure\VirtualDatabases.ts" />
-    <None Remove="ClientApp\src\data\structure\WeghingImages.ts" />
-    <None Remove="ClientApp\src\data\structure\WeighingLog.ts" />
+    <None Remove="ClientApp\src\data\reportManager.ts" />
+    <None Remove="ClientApp\src\data\structure\BooleanResponse.ts" />
+    <None Remove="ClientApp\src\data\structure\DictionaryData.ts" />
+    <None Remove="ClientApp\src\data\structure\VehicleDataRecords.d.js" />
+    <None Remove="ClientApp\src\data\structure\VehicleDataRecords.d.js.map" />
+    <None Remove="ClientApp\src\data\structure\VehicleDataRecords.js" />
+    <None Remove="ClientApp\src\data\structure\VehicleDataRecords.js.map" />
+    <None Remove="ClientApp\src\data\structure\VirtualTable.ts" />
+    <None Remove="ClientApp\src\data\structure\WeghingImages.js" />
+    <None Remove="ClientApp\src\data\structure\WeghingImages.js.map" />
+    <None Remove="ClientApp\src\data\structure\WeighingLog.js" />
+    <None Remove="ClientApp\src\data\structure\WeighingLog.js.map" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,10 +82,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\modal-dialog\expand-info.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\util\cookie.ts" />
-    <TypeScriptCompile Include="ClientApp\src\data\structure\VehicleDataRecords.ts" />
-    <TypeScriptCompile Include="ClientApp\src\data\structure\VirtualDatabases.ts" />
-    <TypeScriptCompile Include="ClientApp\src\data\structure\WeghingImages.ts" />
-    <TypeScriptCompile Include="ClientApp\src\data\structure\WeighingLog.ts" />
+    <TypeScriptCompile Include="ClientApp\src\data\ReportManager.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

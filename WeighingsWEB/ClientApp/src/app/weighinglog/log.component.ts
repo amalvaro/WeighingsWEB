@@ -8,6 +8,8 @@ import { VirtualTable } from '../../data/structure/VirtualTable';
 import { Dictionary } from '../../data/structure/DictionaryData';
 import { Cookie } from '../util/cookie';
 
+import { ReportManager } from '../../data/reportManager';
+
 import { Router } from '@angular/router';
 
 /* Contains filter parameters. */
@@ -51,70 +53,20 @@ export class WeighingLogComponent {
 
     }
 
-    base64ToArrayBuffer(data: any) {
-        var binaryString = window.atob(data);
-        var binaryLen = binaryString.length;
-        var bytes = new Uint8Array(binaryLen);
-        for (var i = 0; i < binaryLen; i++) {
-            var ascii = binaryString.charCodeAt(i);
-            bytes[i] = ascii;
-        }
-        return bytes;
-    }
-
-    ExportData(base64Data:any) {
-
-        var arrBuffer = this.base64ToArrayBuffer(base64Data);
-
-        // It is necessary to create a new blob object with mime-type explicitly set
-        // otherwise only Chrome works like it should
-        var newBlob = new Blob([arrBuffer], { type: "application/pdf" });
-
-        // IE doesn't allow using a blob object directly as link href
-        // instead it is necessary to use msSaveOrOpenBlob
-
-        var name = `[${new Date().toLocaleDateString()}]Отчёт.pdf`;
-
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            window.navigator.msSaveOrOpenBlob(newBlob, name);
-            return;
-        }
-
-        // For other browsers: 
-        // Create a link pointing to the ObjectURL containing the blob.
-        var data = window.URL.createObjectURL(newBlob);
-
-        var link = document.createElement('a');
-        document.body.appendChild(link); //required in FF, optional for Chrome
-        link.href = data;
-        link.download = name;
-        link.click();
-        window.URL.revokeObjectURL(data);
-        link.remove();
-    }
-
-    
-
-
     ExportActData(obj: any, Id: number) {
-
         var target = obj.currentTarget;
+        var reportManager: ReportManager = new ReportManager(this.http, this.baseUrl);
 
-        target.innerHTML = "Подождите ...";
+        target.innerHTML = 'Подождите...';
 
-        this.http.get<string>(this.baseUrl + 'reportpdf/?templatePath=WeighingAct&parameterNames=wId&parameterValues='+ Id).subscribe(result => {
+        reportManager.ExportTemplateData((state: number) => {
 
-            if (result.length > 2) {
-                this.ExportData(result);
-                
-            } else {
-                alert("Данные недоступны.")
+            if (state == 2) {
+                alert("Произошла ошибка при выгрузке");
             }
 
-            target.innerHTML = "Экспорт";
-
-        }, error => { console.error(error); target.innerHTML="Произошла ошибка" });
-
+            target.innerHTML = 'Экспорт';
+        }, 'WeighingAct', 'wId', Id.toString());
     }
 
     GetFieldsDataForTable(Id: number) {

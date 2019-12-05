@@ -62,7 +62,6 @@ namespace WeighingsWEB.Util
             {
                 using (StreamWriter streamWriter = new StreamWriter(memoryStream))
                 {
-
                     report.ExportInto(streamWriter);
 
                     streamWriter.Flush();
